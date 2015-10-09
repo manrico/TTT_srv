@@ -1,0 +1,14 @@
+group 'com.ttt'
+version '0.1'
+
+apply plugin: 'java'
+
+dependencies {
+    compile project('Message')
+}
+
+task(runServer, dependsOn: 'classes', type: JavaExec) {
+    main = 'SocketServer'
+    classpath = sourceSets.main.runtimeClasspath
+
+}

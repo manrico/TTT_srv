@@ -1,0 +1,3 @@
+[submodule "Message"]
+	path = Message
+	url = ../TTT_Message
