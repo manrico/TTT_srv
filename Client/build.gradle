@@ -1,0 +1,10 @@
+group 'Client'
+
+apply plugin: 'java'
+apply from: 'javafx.plugin'
+
+javafx.mainClass 'Client'
+
+dependencies {
+    compile project(':Message')
+}
