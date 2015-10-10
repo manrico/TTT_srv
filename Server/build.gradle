@@ -5,7 +5,7 @@ dependencies {
 }
 
 task(runServer, dependsOn: 'classes', type: JavaExec) {
-    main = 'SocketServer'
+    main = 'com.ttt.srv.SocketServer'
     classpath = sourceSets.main.runtimeClasspath
 
 }

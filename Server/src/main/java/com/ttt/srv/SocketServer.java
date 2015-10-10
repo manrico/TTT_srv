@@ -1,3 +1,5 @@
+package com.ttt.srv;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -11,6 +13,7 @@ public class SocketServer {
         Socket fromClientSocket;
         int cTosPortNumber = 5843;
         Message m;
+        GameLogic logic = new GameLogic();
 
         serverSocket = new ServerSocket(cTosPortNumber);
         System.out.println("Waiting for a connection on " + cTosPortNumber);
@@ -23,11 +26,7 @@ public class SocketServer {
 
         while ((m = (Message) ois.readObject()) != null) {
             System.out.println("The message from client:  " + m);
-
-            if (m.cmd == Command.PING) {
-                System.out.println("PONG");
-                break;
-            }
+            logic.handleMessage(m);
         }
         oos.close();
         fromClientSocket.close();
