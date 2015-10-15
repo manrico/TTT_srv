@@ -4,6 +4,7 @@ import com.ttt.Message.ClientCommand;
 import com.ttt.Message.Message;
 import com.ttt.Message.ServerCommand;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -24,7 +25,21 @@ public class ClientHandler extends Thread{
     }
 
     public void run() {
+        Message clientMessage;
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+            while ((clientMessage = (Message) ois.readObject()) != null) {
 
+                System.out.println("The message from client:  " + clientMessage.toString());
+                Message output = handleMessage(clientMessage);
+                System.out.println("Sending back to client : " + output.toString());
+                oos.writeObject(output);
+                oos.flush();
+            }
+        } catch (IOException|ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public Message handleMessage(Message message) {

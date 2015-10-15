@@ -12,7 +12,7 @@ import java.util.Random;
  */
 
 public class GameLogic {
-    public static final int MAX_PLAYERS = 2;
+    public static final int MAX_PLAYERS = 1; // which is actually 2.
     private int id;
     private List<Player> players;
 
