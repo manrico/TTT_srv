@@ -8,11 +8,11 @@ import java.net.Socket;
 import com.ttt.Message.*;
 
 public class SocketServer {
-    public static void main(String args[]) throws Exception {
+    public static Message main(String args[]) throws Exception {
         ServerSocket serverSocket;
         Socket fromClientSocket;
         int cTosPortNumber = 5843;
-        Message m;
+        Message clientMessage;
         GameLogic logic = new GameLogic();
 
         serverSocket = new ServerSocket(cTosPortNumber);
@@ -24,11 +24,15 @@ public class SocketServer {
 
         ObjectInputStream ois = new ObjectInputStream(fromClientSocket.getInputStream());
 
-        while ((m = (Message) ois.readObject()) != null) {
-            System.out.println("The message from client:  " + m);
-            logic.handleMessage(m);
+        while ((clientMessage = (Message) ois.readObject()) != null) {
+            System.out.println("The message from client:  " + clientMessage.toString());
+            Message serverAnswer = logic.handleMessage(clientMessage);
+            System.out.println("Sending back to client : " + serverAnswer.toString());
+            oos.writeObject(serverAnswer);
+            oos.flush();
         }
         oos.close();
         fromClientSocket.close();
+        return null;
     }
 }

@@ -12,4 +12,8 @@ public class Message implements Serializable {
         cmd = c;
         payload = pl;
     }
+
+    public String toString() {
+        return "Command : " + cmd.toString() + " payload : " + payload;
+    }
 }

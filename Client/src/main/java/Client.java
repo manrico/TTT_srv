@@ -2,6 +2,7 @@
  * Created by urmet on 9.10.15.
  */
 
+import com.ttt.Message.ClientCommand;
 import com.ttt.Message.Command;
 import com.ttt.Message.Message;
 import javafx.application.Application;
@@ -20,9 +21,10 @@ public class Client extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Message message = new Message(Command.PING, "Hi there!");
+        Message message = new Message(ClientCommand.PING, "Hi there!");
         try {
             Socket socket = new Socket("localhost", 5843);
+            System.out.println("Sending to server : " + message.toString());
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             oos.writeObject(message);
             oos.flush();

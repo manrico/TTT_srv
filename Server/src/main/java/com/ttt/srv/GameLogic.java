@@ -10,15 +10,15 @@ import com.ttt.Message.*;
 public class GameLogic {
     public Message handleMessage(Message message) {
         Message answer;
-        switch (message.cmd) {
+        switch ((ClientCommand) message.cmd) {
             case PING:
-                answer = new Message(Command.PONG, null);
+                answer = new Message(ServerCommand.PONG, null);
                 break;
-            case ERROR:
-                answer = new Message(Command.BYE, "Error recieved, bye for now.");
+            case REGISTER:
+                answer = new Message(ServerCommand.REGISTER_OK, "Registered, will send notification when game begins.");
                 break;
             default:
-                answer = new Message(Command.HELLO, "Hi?");
+                answer = new Message(ServerCommand.ERROR, "No comprendo?");
         }
         return answer;
     }
