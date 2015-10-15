@@ -5,5 +5,5 @@ package com.ttt.Message;
  */
 public enum ClientCommand implements Command{
     PING,
-    REGISTER,
+    REGISTER
 }

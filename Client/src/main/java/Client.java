@@ -21,7 +21,7 @@ public class Client extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Message message = new Message(ClientCommand.PING, "Hi there!");
+        Message message = new Message(ClientCommand.REGISTER, "Marko");
         try {
             Socket socket = new Socket("localhost", 5843);
             System.out.println("Sending to server : " + message.toString());

@@ -15,7 +15,8 @@ public class GameLogic {
                 answer = new Message(ServerCommand.PONG, null);
                 break;
             case REGISTER:
-                answer = new Message(ServerCommand.REGISTER_OK, "Registered, will send notification when game begins.");
+                String playerName = message.payload;
+                answer = new Message(ServerCommand.REGISTER_OK, "Registered " + playerName + ", will send notification when game begins.");
                 break;
             default:
                 answer = new Message(ServerCommand.ERROR, "No comprendo?");
