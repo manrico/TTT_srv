@@ -9,6 +9,8 @@ public class Player {
     private int mark;
     private int gameId;
 
+    public ClientHandler handler;
+
     public Player(String name) {
          this.name = name;
     }

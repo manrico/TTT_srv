@@ -16,6 +16,9 @@ import java.io.ObjectOutputStream;
 public class ClientHandler extends Thread{
     private Socket socket;
     private GameLogic gameLogic;
+    private Player player;
+    private ObjectInputStream ois;
+    private ObjectOutputStream oos;
 
     public ClientHandler(Socket socket, GameLogic gameLogic) {
         super("ClientHandler");
@@ -27,22 +30,19 @@ public class ClientHandler extends Thread{
     public void run() {
         Message clientMessage;
         try {
-            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+            oos = new ObjectOutputStream(socket.getOutputStream());
+            ois = new ObjectInputStream(socket.getInputStream());
             while ((clientMessage = (Message) ois.readObject()) != null) {
 
                 System.out.println("The message from client:  " + clientMessage.toString());
-                Message output = handleMessage(clientMessage);
-                System.out.println("Sending back to client : " + output.toString());
-                oos.writeObject(output);
-                oos.flush();
+                handleMessage(clientMessage);
             }
         } catch (IOException|ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public Message handleMessage(Message message) {
+    public void handleMessage(Message message) {
         Message answer;
         switch ((ClientCommand) message.cmd) {
             // Test connection
@@ -56,17 +56,30 @@ public class ClientHandler extends Thread{
             //TODO when game has 2 players, dont send REGISTER_OK, just start.
             case REGISTER:
                 String playerName = message.payload;
-                Player player = new Player(playerName);
+                this.player = new Player(playerName);
+                this.player.handler = this;
                 try {
-                    this.gameLogic.addPlayerAndDecideMark(player);
-                    answer = new Message(ServerCommand.REGISTER_OK, "Registered " + playerName + ", will send notification when game begins.");
+                    if (this.gameLogic.addPlayerAndDecideMark(player)) {
+                        gameLogic.startGame();
+                    } else {
+                        sendMessage(new Message(ServerCommand.REGISTER_OK, "Registered " + playerName + ", will send notification when game begins."));
+                    }
                 } catch (Exception ex) {
-                    answer = new Message(ServerCommand.ERROR, ex.getMessage());
+                    sendMessage(new Message(ServerCommand.ERROR, ex.getMessage()));
                 }
                 break;
             default:
-                answer = new Message(ServerCommand.ERROR, "No comprendo?");
+                sendMessage(new Message(ServerCommand.ERROR, "No comprendo?"));
         }
-        return answer;
+    }
+
+    public void sendMessage(Message message) {
+        System.out.println("Sending back to client : " + message.toString());
+        try {
+            oos.writeObject(message);
+            oos.flush();
+        } catch (IOException e) {
+            System.err.println("Everything is broken: " + e.getMessage());
+        }
     }
 }

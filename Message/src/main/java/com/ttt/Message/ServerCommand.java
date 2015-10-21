@@ -6,6 +6,7 @@ package com.ttt.Message;
 public enum ServerCommand implements Command{
     PONG,
     REGISTER_OK,
-    ERROR
-
+    ERROR,
+    GAME_START,
+    YOUR_TURN
 }

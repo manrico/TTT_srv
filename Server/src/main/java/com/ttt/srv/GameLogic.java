@@ -12,10 +12,11 @@ import java.util.Random;
  */
 
 public class GameLogic {
-    public static final int MAX_PLAYERS = 1; // which is actually 2.
+    public static final int MAX_PLAYERS = 2; // which is actually 2.
     private int id;
     private Game game;
     private List<Player> players;
+    private Player currentTurn;
 
     public  GameLogic() {
         this.players = new ArrayList<>();
@@ -35,16 +36,37 @@ public class GameLogic {
      * @return void
      * @throws Exception When max players to the game are reached.
      */
-    public void addPlayerAndDecideMark(Player player) throws Exception {
+    public boolean addPlayerAndDecideMark(Player player) throws Exception {
         // check if  maximum players for this game reached.
-        if (players.size() > MAX_PLAYERS) {
+        if (players.size() >= MAX_PLAYERS) {
             throw new Exception("Maximum players reached for this game");
         }
         players.add(player);
         // player mark (O or X) is decided by it's index in players list. 0 for O and 1 for X
         player.setMark(players.indexOf(player));
         System.out.println("Player added.");
+        if(players.size()==MAX_PLAYERS) {
+            System.out.printf("max players reached, starting game\n");
+            // start game
+            int first = (int) (Math.random() * 2);
+            setPlayerTurn(players.get(first));
+            return true;
+        }
+        return false;
     }
 
+    public void setPlayerTurn(Player player) {
+        this.currentTurn = player;
+    }
+
+    public Player getPlayerTurn() {
+        return this.currentTurn;
+    }
+
+    public void startGame() {
+        players.get(0).handler.sendMessage(new Message(ServerCommand.GAME_START, "Game has started"));
+        players.get(1).handler.sendMessage(new Message(ServerCommand.GAME_START, "Game has started"));
+        getPlayerTurn().handler.sendMessage(new Message(ServerCommand.YOUR_TURN, "You go first"));
+    }
 
 }
