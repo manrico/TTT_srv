@@ -58,19 +58,33 @@ public class Client extends Application {
             System.out.println("Error" + e.getMessage());
         }
 
-        Message message = new Message(ClientCommand.REGISTER, "Marko");
-
         primaryStage.setScene(new Scene(createContent()));
+
+        Message message = new Message(ClientCommand.REGISTER, "Marko");
+        this.sendMessage(message);
+
+        // separate non-FX thread for server listening
+        new Thread() {
+            Message serverMessage;
+
+            // runnable for that thread
+            public void run() {
+                try {
+                    while ((serverMessage = (Message) ois.readObject()) != null) {
+                        System.out.println("The message from server:  " + serverMessage.toString());
+                        handleMessage(serverMessage);
+                    }
+                } catch (IOException|ClassNotFoundException e) {
+                    System.out.println("Error on handling Server communication : "+ e.getMessage());
+                }
+            }
+        }.start();
+
         primaryStage.show();
 
-        Message serverMessage;
 
-        /*while ((serverMessage = (Message) ois.readObject()) != null) {
 
-            System.out.println("The message from client:  " + serverMessage.toString());
-            Message output = handleMessage(serverMessage);
-            sendMessage(output);
-        }*/
+
     }
 
     private class Tile extends StackPane {
@@ -88,6 +102,7 @@ public class Client extends Application {
             setOnMouseClicked(event -> {
                 if (event.getButton() == MouseButton.PRIMARY) {
                     drawX();
+
                     Message message = new Message(ClientCommand.REGISTER, "Marko");
                 } else if (event.getButton() == MouseButton.SECONDARY) {
                     draw0();
@@ -110,19 +125,20 @@ public class Client extends Application {
 
     }
 
-    public Message handleMessage(Message message) {
-        Message answer;
+    /*
+    Handles server message and sends response back, if logic dictates.
+     */
+    public void handleMessage(Message message) {
         switch ((ServerCommand) message.cmd) {
             // Test connection
             case REGISTER_OK:
                 System.out.println("Got register OK");
-                answer = new Message(ServerCommand.PONG, null);
                 break;
 
             default:
-                answer = new Message(ServerCommand.ERROR, "No comprendo?");
+                //TODO throw Exception - we sould handle everything!
+                System.out.println("Should not fall here.");
         }
-        return answer;
     }
 
     public void sendMessage(Message message) {
@@ -136,6 +152,10 @@ public class Client extends Application {
             System.out.println("Error" + e.getMessage());
 
         }
+    }
+    private void sendDecision(int decision) {
+        Message decisionMessage = new Message(ClientCommand.DECISION, Integer.toString(decision) );
+        this.sendMessage(decisionMessage);
     }
 }
 
