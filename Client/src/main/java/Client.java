@@ -84,6 +84,11 @@ public class Client extends Application {
     /*@Override
     public void start(Stage primaryStage) {
         Message message = new Message(ClientCommand.REGISTER, "Marko");
+
+
+
+    }
+    public void sendMessage(Message message) {
         try {
             Socket socket = new Socket("localhost", 5843);
             System.out.println("Sending to server : " + message.toString());
@@ -94,8 +99,6 @@ public class Client extends Application {
             // don't catch root exception!
             System.out.println("unknown host!");
         }
-
-
     }
 }
 */
