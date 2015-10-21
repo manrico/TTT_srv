@@ -14,12 +14,16 @@ import java.util.Random;
 public class GameLogic {
     public static final int MAX_PLAYERS = 1; // which is actually 2.
     private int id;
+    private Game game;
     private List<Player> players;
 
     public  GameLogic() {
         this.players = new ArrayList<>();
         this.id = new Random().nextInt(1000);
+        this.game = new Game();
     }
+
+
 
     public int getId() {
         return this.id;
