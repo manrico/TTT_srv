@@ -9,7 +9,6 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -25,7 +24,6 @@ import java.net.Socket;
 
 public class Client extends Application {
 
-    private boolean turnX = true;
     private Socket             socket;
     private ObjectOutputStream oos;
     private ObjectInputStream  ois;
@@ -33,9 +31,8 @@ public class Client extends Application {
     private Parent createContent() {
 
         Pane board = new Pane();
-        board.setPrefSize(800, 600);            // Creates Window Pane
+        board.setPrefSize(800, 600);            // creates the application window
 
-        // Game board
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 Tile tile = new Tile();
@@ -46,7 +43,6 @@ public class Client extends Application {
         }
         return board;
     }
-
 
     public void start(Stage primaryStage) throws Exception {
         this.socket = new Socket("localhost", 5843);
@@ -74,24 +70,21 @@ public class Client extends Application {
                         System.out.println("The message from server:  " + serverMessage.toString());
                         handleMessage(serverMessage);
                     }
-                } catch (IOException|ClassNotFoundException e) {
-                    System.out.println("Error on handling Server communication : "+ e.getMessage());
+                } catch (IOException | ClassNotFoundException e) {
+                    System.out.println("Error on handling Server communication : " + e.getMessage());
                 }
             }
         }.start();
 
         primaryStage.show();
 
-
-
-
     }
 
     private class Tile extends StackPane {
-        private Text text = new Text();
+        private Text text = new Text();                             // sets Tile text to default (empty)
 
         public Tile() {
-            Rectangle border = new Rectangle(120, 120);
+            Rectangle border = new Rectangle(120, 120);            // draws TicTacToe board
             border.setFill(null);
             border.setStroke(Color.BLACK);
 
@@ -99,24 +92,20 @@ public class Client extends Application {
             setAlignment(Pos.CENTER);
             getChildren().addAll(border, text);
 
-            setOnMouseClicked(event -> {
-                if (event.getButton() == MouseButton.PRIMARY) {
-                    drawX();
+            setOnMouseClicked(event -> {                            // sets X&O on mouse click, without manual checking
 
-                    Message message = new Message(ClientCommand.REGISTER, "Marko");
-                } else if (event.getButton() == MouseButton.SECONDARY) {
-                    draw0();
-                    Message message = new Message(ClientCommand.REGISTER, "Marko");
-                }
+                Message message = new Message(ClientCommand.REGISTER, "Marko");
+
             });
         }
 
         private void drawX() {
+
             text.setText("X");
         }
 
         private void draw0() {
-            text.setText("0");
+            text.setText("O");
         }
     }
 
@@ -153,8 +142,9 @@ public class Client extends Application {
 
         }
     }
+
     private void sendDecision(int decision) {
-        Message decisionMessage = new Message(ClientCommand.DECISION, Integer.toString(decision) );
+        Message decisionMessage = new Message(ClientCommand.DECISION, Integer.toString(decision));
         this.sendMessage(decisionMessage);
     }
 }
