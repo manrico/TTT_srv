@@ -105,6 +105,7 @@ public class Client extends Application {
         }
 
         private void draw0() {
+
             text.setText("O");
         }
     }
