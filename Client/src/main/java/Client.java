@@ -92,7 +92,7 @@ public class Client extends Application {
             setAlignment(Pos.CENTER);
             getChildren().addAll(border, text);
 
-            setOnMouseClicked(event -> {                            // sets X&O on mouse click, without manual checking
+            setOnMouseClicked(event -> {    drawX(); draw0();                     // sets X&O on mouse click, without manual checking
 
                 Message message = new Message(ClientCommand.REGISTER, "Marko");
 
