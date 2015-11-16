@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 /**
  * Created by kasutaja on 10.11.2015.
  */
-public class NewClient extends Application {
+public class Client_2 extends Application {
     Stage      stage;
     BorderPane sceneMain;
     GridPane   sceneGame;
