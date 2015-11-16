@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.io.*;
 
 /**
  * Created by kasutaja on 16.11.2015.
@@ -80,16 +81,13 @@ public class Client_3 extends Application {
     private void gameBoard() {
 
         for (int i = 0; i < 3; i++) {
-            ColumnConstraints column = new ColumnConstraints(100);
-            RowConstraints row = new RowConstraints(100);
+            ColumnConstraints column = new ColumnConstraints(150);
+            RowConstraints row = new RowConstraints(150);
             sceneGame.getRowConstraints().add(row);
             sceneGame.getColumnConstraints().add(column);
             sceneGame.setAlignment(Pos.CENTER);
-            sceneGame.setMaxSize(448, 336);
-            //sceneGame.setStyle("-fx-background-image: url('file://C:/Users/kasutaja/Desktop/Grid.png');");
-            //sceneGame.setStyle("-fx-background-color: floralwhite; -fx-padding: 0; -fx-hgap: 0; -fx-vgap: 0;");
-            sceneGame.setGridLinesVisible(true); // Can be uncommented to show the grid lines for debugging purposes, but not particularly useful for styling purposes.
-            //sceneGame.setSnapToPixel(false); // Turn layout pixel snapping off on the grid so that grid lines will be an even width.
+            sceneGame.setMaxSize(480, 571);
+            sceneGame.setGridLinesVisible(false); // Can be uncommented to show the grid lines for debugging purposes, but not particularly useful for styling purposes.
 
             /* CLICK EVENT
 
@@ -101,15 +99,16 @@ public class Client_3 extends Application {
                 sceneGame.add(XandO, i, j);
             }*/
         }
+        //sceneGame.setStyle("-fx-background-image: url('file://C:/Users/kasutaja/Desktop/Grid.png');");
+        //sceneGame.setStyle("-fx-background-image: url('http://duke.kenai.com/wave/Wave.jpg')");
     }
 
     private void stageWindow() {
 
         sceneGame = new GridPane();
-        secondScene = new Scene(sceneGame, 600, 400);
-        /* CSS
-        File  f     = new File("src/mystylesheet.css");
-        secondScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));*/
+        secondScene = new Scene(sceneGame, 480, 571);
+        File  f     = new File("Client/src/design.css");
+        secondScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
         stage.setScene(secondScene);
         stage.show();
     }
