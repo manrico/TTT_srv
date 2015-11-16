@@ -16,13 +16,13 @@ import javafx.stage.Stage;
  */
 public class Client_3 extends Application {
 
-    Stage       stage;
-    Scene       firstScene, secondScene;
-    GridPane    sceneGame;
-    VBox        first;
-    Button      start;
-    Label       enter, hello;
-    TextField   name;
+    Stage stage;
+    Scene firstScene, secondScene;
+    GridPane sceneGame;
+    VBox     first;
+    Button   start;
+    Label    enter, hello;
+    TextField name;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -30,6 +30,7 @@ public class Client_3 extends Application {
         setUserAgentStylesheet(STYLESHEET_CASPIAN);
 
         stage = primaryStage;
+        stage.setTitle("Tic Tac Toe by M-U-M");
 
         stageWindow();
         firstWindow();
@@ -84,7 +85,8 @@ public class Client_3 extends Application {
             sceneGame.getRowConstraints().add(row);
             sceneGame.getColumnConstraints().add(column);
             sceneGame.setAlignment(Pos.CENTER);
-            sceneGame.setMaxSize(200, 200);
+            sceneGame.setMaxSize(448, 336);
+            //sceneGame.setStyle("-fx-background-image: url('file://C:/Users/kasutaja/Desktop/Grid.png');");
             //sceneGame.setStyle("-fx-background-color: floralwhite; -fx-padding: 0; -fx-hgap: 0; -fx-vgap: 0;");
             sceneGame.setGridLinesVisible(true); // Can be uncommented to show the grid lines for debugging purposes, but not particularly useful for styling purposes.
             //sceneGame.setSnapToPixel(false); // Turn layout pixel snapping off on the grid so that grid lines will be an even width.
