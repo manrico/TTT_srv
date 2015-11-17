@@ -9,9 +9,11 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-import java.io.*;
+import java.io.File;
 
 /**
  * Created by kasutaja on 16.11.2015.
@@ -88,14 +90,16 @@ public class Client_3 extends Application {
             sceneGame.getColumnConstraints().add(column);
             sceneGame.setAlignment(Pos.CENTER);
             sceneGame.setMaxSize(480, 571);
-            sceneGame.setGridLinesVisible(true); // Can be uncommented to show the grid lines for debugging purposes, but not particularly useful for styling purposes.
-            /*for (int j = 0; j < 3; j++) {
-                Button button = new Button();
-                button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-                button.setOpacity(0);
-                button.setOnMouseClicked(event -> button.setText("X"));
-                sceneGame.add(button, i, j);
-            }*/
+            sceneGame.setGridLinesVisible(false); // Can be uncommented to show the grid lines for debugging purposes, but not particularly useful for styling purposes.
+            for (int j = 0; j < 3; j++) {
+                Label click = new Label();
+                click.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+                /*click.setOpacity(100);*/
+                click.setOnMouseClicked(event -> click.setText("X"));
+                click.setAlignment(Pos.CENTER);
+                click.setFont(Font.font("Verdana", FontWeight.EXTRA_BOLD, 75));
+                sceneGame.add(click, i, j);
+            }
         }
     }
 
