@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import java.io.*;
 
 /**
@@ -87,8 +88,14 @@ public class Client_3 extends Application {
             sceneGame.getColumnConstraints().add(column);
             sceneGame.setAlignment(Pos.CENTER);
             sceneGame.setMaxSize(480, 571);
-            sceneGame.setGridLinesVisible(false); // Can be uncommented to show the grid lines for debugging purposes, but not particularly useful for styling purposes.
-
+            sceneGame.setGridLinesVisible(true); // Can be uncommented to show the grid lines for debugging purposes, but not particularly useful for styling purposes.
+            /*for (int j = 0; j < 3; j++) {
+                Button button = new Button();
+                button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+                button.setOpacity(0);
+                button.setOnMouseClicked(event -> button.setText("X"));
+                sceneGame.add(button, i, j);
+            }*/
         }
     }
 
@@ -96,7 +103,7 @@ public class Client_3 extends Application {
 
         sceneGame = new GridPane();
         secondScene = new Scene(sceneGame, 480, 571);
-        File  f     = new File("Client/src/design.css");
+        File f = new File("Client/src/design.css");
         secondScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
         stage.setScene(secondScene);
         stage.show();

@@ -94,7 +94,7 @@ public class Client extends Application {
 
             setOnMouseClicked(event -> {    drawX(); draw0();                     // sets X&O on mouse click, without manual checking
 
-                Message message = new Message(ClientCommand.REGISTER, "Marko");
+                /*Message message = new Message(ClientCommand.REGISTER, "Marko");*/
 
             });
         }
