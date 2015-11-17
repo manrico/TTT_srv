@@ -89,18 +89,7 @@ public class Client_3 extends Application {
             sceneGame.setMaxSize(480, 571);
             sceneGame.setGridLinesVisible(false); // Can be uncommented to show the grid lines for debugging purposes, but not particularly useful for styling purposes.
 
-            /* CLICK EVENT
-
-            for (int j = 0; j < 3; j++) {
-                Text XandO = new Text();
-                XandO.setFont(Font.font("Arial", FontWeight.BLACK, 12));
-                *//*XandO.setStyle();*//*
-                XandO.setOnMouseClicked(event -> clickHandler(XandO));
-                sceneGame.add(XandO, i, j);
-            }*/
         }
-        //sceneGame.setStyle("-fx-background-image: url('file://C:/Users/kasutaja/Desktop/Grid.png');");
-        //sceneGame.setStyle("-fx-background-image: url('http://duke.kenai.com/wave/Wave.jpg')");
     }
 
     private void stageWindow() {
