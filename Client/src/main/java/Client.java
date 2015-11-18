@@ -7,7 +7,6 @@ import com.ttt.Message.Message;
 import com.ttt.Message.ServerCommand;
 import javafx.application.Application;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -17,12 +16,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import javax.xml.soap.Node;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Client extends Application {
@@ -30,18 +27,18 @@ public class Client extends Application {
     private Socket             socket;
     private ObjectOutputStream oos;
     private ObjectInputStream  ois;
-    private Pane             board;
+    private Pane               board;
 
 
     public void start(Stage primaryStage) throws Exception {
-        this.socket = new Socket("localhost", 5843);
+      /*  this.socket = new Socket("localhost", 5843);
         try {
             this.oos = new ObjectOutputStream(this.socket.getOutputStream());
             this.ois = new ObjectInputStream(this.socket.getInputStream());
 
         } catch (IOException e) {
             System.out.println("Error" + e.getMessage());
-        }
+        }*/
 
         // create board and add it to stage.
         this.board = this.createContent();
@@ -69,21 +66,21 @@ public class Client extends Application {
 
         primaryStage.show();
         Message message = new Message(ClientCommand.REGISTER, "Marko");
-        this.sendMessage(message);
-       // int[] state =  { 0, 1, 2, 0, 0, 1, 0, 1, 2 };
-        // this.drawState(state);
+        /*this.sendMessage(message);
+        int[] state =  { 0, 1, 2, 0, 0, 1, 0, 1, 2 };
+        this.drawState(state);*/
 
     }
 
     private Pane createContent() {
         Pane board = new Pane();
-        board.setPrefSize(800, 600);            // creates the application window
+        board.setPrefSize(600, 400);            // creates the application window
 
         int tileIndex = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 Tile tile = new Tile();
-                tile.setId(""+tileIndex);
+                tile.setId("" + tileIndex);
                 tileIndex++;
                 tile.setTranslateX(j * 120);
                 tile.setTranslateY(i * 120);
@@ -93,17 +90,14 @@ public class Client extends Application {
         return board;
     }
 
-
     private void drawState(int[] state) {
 
-        for (Iterator<javafx.scene.Node> i = this.board.getChildren().iterator(); i.hasNext();) {
+        for (Iterator<javafx.scene.Node> i = this.board.getChildren().iterator(); i.hasNext(); ) {
             Tile currentPane = (Tile) i.next();
             int id = Integer.parseInt(currentPane.getId());
             currentPane.drawMark(state[id]);
         }
     }
-
-
 
     private class Tile extends StackPane {
         private Text text = new Text();                             // sets Tile text to default (empty)
@@ -112,10 +106,17 @@ public class Client extends Application {
             Rectangle border = new Rectangle(120, 120);            // draws TicTacToe board
             border.setFill(null);
             border.setStroke(Color.BLACK);
+            //border.setOpacity(0);
 
             text.setFont(Font.font(50));
             setAlignment(Pos.CENTER);
             getChildren().addAll(border, text);
+
+            this.enableMouse();
+
+        }
+
+        public void enableMouse() {
 
             setOnMouseClicked(event -> {
                 drawMark(1);
@@ -125,20 +126,20 @@ public class Client extends Application {
         }
 
         public void drawMark(int mark) {
-           switch (mark) {
-               case 0:
-                   text.setText("");
-                   break;
-               case 1:
-                   text.setText("X");
-                   break;
-               case 2:
-                   text.setText("O");
-                   break;
-               default:
-                   text.setText(""); //TODO build exception / handling
-                  break;
-           }
+            switch (mark) {
+                case 0:
+                    text.setText("");
+                    break;
+                case 1:
+                    text.setText("X");
+                    break;
+                case 2:
+                    text.setText("O");
+                    break;
+                default:
+                    text.setText(""); //TODO build exception / handling
+                    break;
+            }
         }
 
     }
@@ -160,7 +161,7 @@ public class Client extends Application {
             case STATE:
                 String[] strArray = message.payload.split(",");
                 int[] intArray = new int[strArray.length];
-                for(int i = 0; i < strArray.length; i++) {
+                for (int i = 0; i < strArray.length; i++) {
                     intArray[i] = Integer.parseInt(strArray[i]);
                 }
                 this.drawState(intArray);
@@ -170,7 +171,28 @@ public class Client extends Application {
         }
     }
 
+    private void disableMouse() {
+        for (Iterator<javafx.scene.Node> i = this.board.getChildren().iterator(); i.hasNext(); ) {
+            i.next().setOnMouseClicked(null);
+        }
+    }
+
+    private void enableTileMouseEvents() {
+
+        for (Iterator<javafx.scene.Node> i = this.board.getChildren().iterator(); i.hasNext(); ) {
+            Tile currentPane = (Tile) i.next();
+            if (currentPane.text.equals("")) {
+                currentPane.enableMouse();
+            }
+
+        }
+
+    }
+
     public void sendMessage(Message message) {
+
+        this.disableMouse();
+        this.enableTileMouseEvents();
 
         System.out.println("Sending to server : " + message.toString());
         try {

@@ -90,7 +90,7 @@ public class Client_3 extends Application {
             sceneGame.getColumnConstraints().add(column);
             sceneGame.setAlignment(Pos.CENTER);
             sceneGame.setMaxSize(480, 571);
-            sceneGame.setGridLinesVisible(false); // Can be uncommented to show the grid lines for debugging purposes, but not particularly useful for styling purposes.
+            sceneGame.setGridLinesVisible(true); // Can be uncommented to show the grid lines for debugging purposes, but not particularly useful for styling purposes.
             for (int j = 0; j < 3; j++) {
                 Label click = new Label();
                 click.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
