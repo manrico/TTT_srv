@@ -62,7 +62,8 @@ public class ClientHandler extends Thread{
                     if (this.gameLogic.addPlayerAndDecideMark(player)) {
                         gameLogic.startGame();
                     } else {
-                        sendMessage(new Message(ServerCommand.REGISTER_OK, "Registered " + playerName + ", will send notification when game begins."));
+                        sendMessage(new Message(ServerCommand.STATE, "0,1,1,0,1,1,0,2,1"));
+                        //sendMessage(new Message(ServerCommand.REGISTER_OK, "Registered " + playerName + ", will send notification when game begins."));
                     }
                 } catch (Exception ex) {
                     sendMessage(new Message(ServerCommand.ERROR, ex.getMessage()));

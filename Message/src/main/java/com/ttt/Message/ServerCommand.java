@@ -8,5 +8,6 @@ public enum ServerCommand implements Command{
     REGISTER_OK,
     ERROR,
     GAME_START,
-    YOUR_TURN
+    YOUR_TURN,
+    STATE
 }

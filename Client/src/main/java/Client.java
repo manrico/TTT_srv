@@ -17,32 +17,21 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import javax.xml.soap.Node;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Client extends Application {
 
     private Socket             socket;
     private ObjectOutputStream oos;
     private ObjectInputStream  ois;
+    private Pane             board;
 
-    private Parent createContent() {
-
-        Pane board = new Pane();
-        board.setPrefSize(800, 600);            // creates the application window
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                Tile tile = new Tile();
-                tile.setTranslateX(j * 120);
-                tile.setTranslateY(i * 120);
-                board.getChildren().add(tile);
-            }
-        }
-        return board;
-    }
 
     public void start(Stage primaryStage) throws Exception {
         this.socket = new Socket("localhost", 5843);
@@ -54,10 +43,12 @@ public class Client extends Application {
             System.out.println("Error" + e.getMessage());
         }
 
-        primaryStage.setScene(new Scene(createContent()));
+        // create board and add it to stage.
+        this.board = this.createContent();
+        primaryStage.setScene(new Scene(this.board));
 
-        Message message = new Message(ClientCommand.REGISTER, "Marko");
-        this.sendMessage(message);
+        //TODO move this out from here.
+
 
         // separate non-FX thread for server listening
         new Thread() {
@@ -77,8 +68,42 @@ public class Client extends Application {
         }.start();
 
         primaryStage.show();
+        Message message = new Message(ClientCommand.REGISTER, "Marko");
+        this.sendMessage(message);
+       // int[] state =  { 0, 1, 2, 0, 0, 1, 0, 1, 2 };
+        // this.drawState(state);
 
     }
+
+    private Pane createContent() {
+        Pane board = new Pane();
+        board.setPrefSize(800, 600);            // creates the application window
+
+        int tileIndex = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                Tile tile = new Tile();
+                tile.setId(""+tileIndex);
+                tileIndex++;
+                tile.setTranslateX(j * 120);
+                tile.setTranslateY(i * 120);
+                board.getChildren().add(tile);
+            }
+        }
+        return board;
+    }
+
+
+    private void drawState(int[] state) {
+
+        for (Iterator<javafx.scene.Node> i = this.board.getChildren().iterator(); i.hasNext();) {
+            Tile currentPane = (Tile) i.next();
+            int id = Integer.parseInt(currentPane.getId());
+            currentPane.drawMark(state[id]);
+        }
+    }
+
+
 
     private class Tile extends StackPane {
         private Text text = new Text();                             // sets Tile text to default (empty)
@@ -92,22 +117,30 @@ public class Client extends Application {
             setAlignment(Pos.CENTER);
             getChildren().addAll(border, text);
 
-            setOnMouseClicked(event -> {    drawX(); draw0();                     // sets X&O on mouse click, without manual checking
-
-                /*Message message = new Message(ClientCommand.REGISTER, "Marko");*/
-
+            setOnMouseClicked(event -> {
+                drawMark(1);
+                Message message = new Message(ClientCommand.DECISION, this.getId());
+                sendMessage(message);
             });
         }
 
-        private void drawX() {
-
-            text.setText("X");
+        public void drawMark(int mark) {
+           switch (mark) {
+               case 0:
+                   text.setText("");
+                   break;
+               case 1:
+                   text.setText("X");
+                   break;
+               case 2:
+                   text.setText("O");
+                   break;
+               default:
+                   text.setText(""); //TODO build exception / handling
+                  break;
+           }
         }
 
-        private void draw0() {
-
-            text.setText("O");
-        }
     }
 
     public static void main(String[] args) {
@@ -124,7 +157,13 @@ public class Client extends Application {
             case REGISTER_OK:
                 System.out.println("Got register OK");
                 break;
-
+            case STATE:
+                String[] strArray = message.payload.split(",");
+                int[] intArray = new int[strArray.length];
+                for(int i = 0; i < strArray.length; i++) {
+                    intArray[i] = Integer.parseInt(strArray[i]);
+                }
+                this.drawState(intArray);
             default:
                 //TODO throw Exception - we sould handle everything!
                 System.out.println("Should not fall here.");
