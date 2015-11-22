@@ -24,10 +24,10 @@ import java.util.Iterator;
 
 public class Client extends Application {
 
-    private Socket             socket;
+    private Socket socket;
     private ObjectOutputStream oos;
-    private ObjectInputStream  ois;
-    private Pane               board;
+    private ObjectInputStream ois;
+    private Pane gameStage, stage;
 
 
     public void start(Stage primaryStage) throws Exception {
@@ -41,8 +41,8 @@ public class Client extends Application {
         }*/
 
         // create board and add it to stage.
-        this.board = this.createContent();
-        primaryStage.setScene(new Scene(this.board));
+        this.gameStage = this.createContent();
+        primaryStage.setScene(new Scene(this.gameStage));
 
         //TODO move this out from here.
 
@@ -73,44 +73,44 @@ public class Client extends Application {
     }
 
     private Pane createContent() {
-        Pane board = new Pane();
-        board.setPrefSize(600, 400);            // creates the application window
+        stage = new Pane();
+        stage.setPrefSize(600, 400);            // creates the application window
 
         int tileIndex = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                Tile tile = new Tile();
+                GameBoard tile = new GameBoard();
                 tile.setId("" + tileIndex);
                 tileIndex++;
                 tile.setTranslateX(j * 120);
                 tile.setTranslateY(i * 120);
-                board.getChildren().add(tile);
+                stage.getChildren().add(tile);
             }
         }
-        return board;
+        return stage;
     }
 
     private void drawState(int[] state) {
 
-        for (Iterator<javafx.scene.Node> i = this.board.getChildren().iterator(); i.hasNext(); ) {
-            Tile currentPane = (Tile) i.next();
+        for (Iterator<javafx.scene.Node> i = this.stage.getChildren().iterator(); i.hasNext(); ) {
+            GameBoard currentPane = (GameBoard) i.next();
             int id = Integer.parseInt(currentPane.getId());
             currentPane.drawMark(state[id]);
         }
     }
 
-    private class Tile extends StackPane {
-        private Text text = new Text();                             // sets Tile text to default (empty)
+    private class GameBoard extends StackPane {
+        private Text filltext = new Text();                             // sets GameBoard text to default (empty)
 
-        public Tile() {
+        public GameBoard() {
             Rectangle border = new Rectangle(120, 120);            // draws TicTacToe board
             border.setFill(null);
             border.setStroke(Color.BLACK);
             //border.setOpacity(0);
 
-            text.setFont(Font.font(50));
+            filltext.setFont(Font.font(50));
             setAlignment(Pos.CENTER);
-            getChildren().addAll(border, text);
+            getChildren().addAll(border, filltext);
 
             this.enableMouse();
 
@@ -128,16 +128,16 @@ public class Client extends Application {
         public void drawMark(int mark) {
             switch (mark) {
                 case 0:
-                    text.setText("");
+                    filltext.setText("");
                     break;
                 case 1:
-                    text.setText("X");
+                    filltext.setText("X");
                     break;
                 case 2:
-                    text.setText("O");
+                    filltext.setText("O");
                     break;
                 default:
-                    text.setText(""); //TODO build exception / handling
+                    filltext.setText(""); //TODO build exception / handling
                     break;
             }
         }
@@ -172,16 +172,16 @@ public class Client extends Application {
     }
 
     private void disableMouse() {
-        for (Iterator<javafx.scene.Node> i = this.board.getChildren().iterator(); i.hasNext(); ) {
+        for (Iterator<javafx.scene.Node> i = this.stage.getChildren().iterator(); i.hasNext(); ) {
             i.next().setOnMouseClicked(null);
         }
     }
 
     private void enableTileMouseEvents() {
 
-        for (Iterator<javafx.scene.Node> i = this.board.getChildren().iterator(); i.hasNext(); ) {
-            Tile currentPane = (Tile) i.next();
-            if (currentPane.text.equals("")) {
+        for (Iterator<javafx.scene.Node> i = this.stage.getChildren().iterator(); i.hasNext(); ) {
+            GameBoard currentPane = (GameBoard) i.next();
+            if (currentPane.filltext.equals("")) {
                 currentPane.enableMouse();
             }
 
