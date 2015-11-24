@@ -100,7 +100,7 @@ public class Client extends Application {
     }
 
     private class GameBoard extends StackPane {
-        private Text filltext = new Text();                             // sets GameBoard text to default (empty)
+        private Text fill = new Text();                             // sets GameBoard text to default (empty)
 
         public GameBoard() {
             Rectangle border = new Rectangle(120, 120);            // draws TicTacToe board
@@ -108,9 +108,9 @@ public class Client extends Application {
             border.setStroke(Color.BLACK);
 //            border.setOpacity(0);
 
-            filltext.setFont(Font.font(50));
-//            filltext.setAlignment(Pos.CENTER);
-            getChildren().addAll(border, filltext);
+            fill.setFont(Font.font(50));
+//            fill.setAlignment(Pos.CENTER);
+            getChildren().addAll(border, fill);
 
             this.enableMouse();
 
@@ -128,16 +128,16 @@ public class Client extends Application {
         public void drawMark(int mark) {
             switch (mark) {
                 case 0:
-                    filltext.setText("");
+                    fill.setText("");
                     break;
                 case 1:
-                    filltext.setText("X");
+                    fill.setText("X");
                     break;
                 case 2:
-                    filltext.setText("O");
+                    fill.setText("O");
                     break;
                 default:
-                    filltext.setText(""); //TODO build exception / handling
+                    fill.setText(""); //TODO build exception / handling
                     break;
             }
         }
@@ -181,7 +181,7 @@ public class Client extends Application {
 
         for (Iterator<javafx.scene.Node> i = this.gameScene.getChildren().iterator(); i.hasNext(); ) {
             GameBoard currentPane = (GameBoard) i.next();
-            if (currentPane.filltext.equals("")) {
+            if (currentPane.fill.equals("")) {
                 currentPane.enableMouse();
             }
 
