@@ -6,7 +6,6 @@ import com.ttt.Message.ClientCommand;
 import com.ttt.Message.Message;
 import com.ttt.Message.ServerCommand;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -27,7 +26,7 @@ public class Client extends Application {
     private Socket socket;
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
-    private Pane gameStage, stage;
+    private Pane gameStage, gameScene;
 
 
     public void start(Stage primaryStage) throws Exception {
@@ -43,6 +42,7 @@ public class Client extends Application {
         // create board and add it to stage.
         this.gameStage = this.createContent();
         primaryStage.setScene(new Scene(this.gameStage));
+
 
         //TODO move this out from here.
 
@@ -73,8 +73,8 @@ public class Client extends Application {
     }
 
     private Pane createContent() {
-        stage = new Pane();
-        stage.setPrefSize(600, 400);            // creates the application window
+        gameScene = new Pane();
+        gameScene.setPrefSize(600, 400);            // creates the application window
 
         int tileIndex = 0;
         for (int i = 0; i < 3; i++) {
@@ -84,15 +84,15 @@ public class Client extends Application {
                 tileIndex++;
                 tile.setTranslateX(j * 120);
                 tile.setTranslateY(i * 120);
-                stage.getChildren().add(tile);
+                gameScene.getChildren().add(tile);
             }
         }
-        return stage;
+        return gameScene;
     }
 
     private void drawState(int[] state) {
 
-        for (Iterator<javafx.scene.Node> i = this.stage.getChildren().iterator(); i.hasNext(); ) {
+        for (Iterator<javafx.scene.Node> i = this.gameScene.getChildren().iterator(); i.hasNext(); ) {
             GameBoard currentPane = (GameBoard) i.next();
             int id = Integer.parseInt(currentPane.getId());
             currentPane.drawMark(state[id]);
@@ -106,10 +106,10 @@ public class Client extends Application {
             Rectangle border = new Rectangle(120, 120);            // draws TicTacToe board
             border.setFill(null);
             border.setStroke(Color.BLACK);
-            //border.setOpacity(0);
+//            border.setOpacity(0);
 
             filltext.setFont(Font.font(50));
-            setAlignment(Pos.CENTER);
+//            filltext.setAlignment(Pos.CENTER);
             getChildren().addAll(border, filltext);
 
             this.enableMouse();
@@ -172,14 +172,14 @@ public class Client extends Application {
     }
 
     private void disableMouse() {
-        for (Iterator<javafx.scene.Node> i = this.stage.getChildren().iterator(); i.hasNext(); ) {
+        for (Iterator<javafx.scene.Node> i = this.gameScene.getChildren().iterator(); i.hasNext(); ) {
             i.next().setOnMouseClicked(null);
         }
     }
 
     private void enableTileMouseEvents() {
 
-        for (Iterator<javafx.scene.Node> i = this.stage.getChildren().iterator(); i.hasNext(); ) {
+        for (Iterator<javafx.scene.Node> i = this.gameScene.getChildren().iterator(); i.hasNext(); ) {
             GameBoard currentPane = (GameBoard) i.next();
             if (currentPane.filltext.equals("")) {
                 currentPane.enableMouse();
