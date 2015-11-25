@@ -39,7 +39,7 @@ public class Client extends Application {
             System.out.println("Error" + e.getMessage());
         }*/
 
-        // create board and add it to stage.
+        // create board and add it to stage
         this.gameStage = this.createContent();
         primaryStage.setScene(new Scene(this.gameStage));
 

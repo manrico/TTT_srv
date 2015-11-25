@@ -1,7 +1,11 @@
 package main;
 
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -10,20 +14,27 @@ import javafx.scene.text.Text;
  * Created by X1 on 24.11.2015.
  */
 public class Game extends StackPane {
-    private Text fill = new Text();
+    private Label fill = new Label();
     private Rectangle border;
+    private Image xPic = new Image(getClass().getResourceAsStream("X.png"));
+    private Image oPic = new Image(getClass().getResourceAsStream("O.png"));
+
 
     public Game() {
         border = new Rectangle(120, 120);            // draws TicTacToe board
         border.setFill(null);
         border.setStroke(Color.BLACK);
+        /*String image = Game.class.getResource("Grid.png").toExternalForm();
+        border.setStyle("-fx-background-image: url('" + image + "'); " +
+                "-fx-background-position: center center; " +
+                "-fx-background-repeat: stretch;");*/
 //            border.setOpacity(0);
-        fill.setFont(Font.font(50));
         getChildren().addAll(border, fill);
 
         this.enableMouse();
 
     }
+
     public void enableMouse() {
 
         setOnMouseClicked(event -> {
@@ -39,10 +50,10 @@ public class Game extends StackPane {
                 fill.setText("");
                 break;
             case 1:
-                fill.setText("X");
+                fill.setGraphic(new ImageView(xPic));
                 break;
             case 2:
-                fill.setText("O");
+                fill.setGraphic(new ImageView(oPic));
                 break;
             default:
                 fill.setText(""); //TODO build exception / handling
