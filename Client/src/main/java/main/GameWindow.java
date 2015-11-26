@@ -1,7 +1,9 @@
 package main;
 
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 /**
@@ -11,6 +13,7 @@ public class GameWindow {
     private Stage stage2 = new Stage();
     private Pane gameScene;
     private Scene scene2;
+    private String boardBackground;
 
     GameWindow() {
         createContent();
@@ -18,22 +21,25 @@ public class GameWindow {
 
     private Pane createContent() {
         gameScene = new Pane();
-        gameScene.setPrefSize(600, 400);
-        /*gameScene.getStylesheets().add("Background.css");
-        stage2.getScene().getStylesheets().add(GameWindow.class.getResource("Background.css").toExternalForm());*/
+        gameScene.setPrefSize(475, 475);
+        boardBackground = Game.class.getResource("Grid.png").toExternalForm();
+        gameScene.setStyle("-fx-background-image: url('" + boardBackground + "'); " +
+                "-fx-background-position: up left; " +
+                "-fx-background-repeat: stretch;");
         scene2 = new Scene(gameScene);
         stage2.setScene(scene2);
         stage2.setResizable(true);
         stage2.show();
 
+        // Create tiles to set Id-s
         int tileIndex = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 Game tile = new Game();
                 tile.setId("" + tileIndex);
                 tileIndex++;
-                tile.setTranslateX(j * 120);
-                tile.setTranslateY(i * 120);
+                tile.setTranslateX(j * 150);
+                tile.setTranslateY(i * 150);
                 gameScene.getChildren().add(tile);
             }
         }

@@ -17,6 +17,8 @@ public class FirstWindow {
     private Label enter, hello;
     private TextField name;
     private Stage stage1 = new Stage();
+    private Scene scene1;
+    private VBox vbox;
 
     FirstWindow() {
         firstScene();
@@ -24,11 +26,12 @@ public class FirstWindow {
     }
 
     private void firstScene() {
-        VBox vbox = new VBox();
+        vbox = new VBox();
         vbox.setPadding(new Insets(150));
         vbox.setSpacing(15);
-        Scene scene1 = new Scene(vbox);
-
+        scene1 = new Scene(vbox);
+        scene1.getStylesheets().add
+                (FirstWindow.class.getResource("Design.css").toExternalForm());
         hello = new Label("Lets play some Tic Tac Toe");
         enter = new Label("Please enter your name to begin:");
         name = new TextField();

@@ -1,5 +1,6 @@
 package main;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,11 +25,11 @@ public class Game extends StackPane {
     private Image oPic = new Image(getClass().getResourceAsStream("O.png"));
 
     public Game() {
-        border = new Rectangle(120, 120);            // draws TicTacToe board
+        // Tic Tac Toe board with rectangles, can be uncommented as were using background image as well.
+        border = new Rectangle(150, 150);
         border.setFill(null);
         border.setStroke(Color.BLACK);
-//        border.setStyle("-fx-image:url('Grid.png');");
-//            border.setOpacity(0);
+        border.setOpacity(0);
         getChildren().addAll(border, fill);
 
         this.enableMouse();
@@ -38,7 +39,7 @@ public class Game extends StackPane {
     public void enableMouse() {
 
         setOnMouseClicked(event -> {
-            drawMark(1);
+            drawMark(2);
 //            Message message = new Message(ClientCommand.DECISION, this.getId());
 //            sendMessage(message);
         });
@@ -60,5 +61,6 @@ public class Game extends StackPane {
                 break;
         }
     }
+
 
 }
