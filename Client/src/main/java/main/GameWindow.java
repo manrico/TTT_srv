@@ -24,7 +24,7 @@ public class GameWindow {
         gameScene.setPrefSize(475, 475);
         boardBackground = Game.class.getResource("Grid.png").toExternalForm();
         gameScene.setStyle("-fx-background-image: url('" + boardBackground + "'); " +
-                "-fx-background-position: up left; " +
+                "-fx-background-position: top left; " +
                 "-fx-background-repeat: stretch;");
         scene2 = new Scene(gameScene);
         stage2.setScene(scene2);
