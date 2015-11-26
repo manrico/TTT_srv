@@ -19,9 +19,8 @@ public class GameWindow {
     private Pane createContent() {
         gameScene = new Pane();
         gameScene.setPrefSize(600, 400);
-        gameScene.setStyle("-fx-background-color: white;");
         /*gameScene.getStylesheets().add("Background.css");
-        gameScene.getScene().getStylesheets().add(GameWindow.class.getResource("Background.css").toExternalForm());*/
+        stage2.getScene().getStylesheets().add(GameWindow.class.getResource("Background.css").toExternalForm());*/
         scene2 = new Scene(gameScene);
         stage2.setScene(scene2);
         stage2.setResizable(true);

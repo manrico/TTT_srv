@@ -3,12 +3,16 @@ package main;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+
+import static javafx.scene.layout.Background.EMPTY;
 
 /**
  * Created by X1 on 24.11.2015.
@@ -19,15 +23,11 @@ public class Game extends StackPane {
     private Image xPic = new Image(getClass().getResourceAsStream("X.png"));
     private Image oPic = new Image(getClass().getResourceAsStream("O.png"));
 
-
     public Game() {
         border = new Rectangle(120, 120);            // draws TicTacToe board
         border.setFill(null);
         border.setStroke(Color.BLACK);
-        /*String image = Game.class.getResource("Grid.png").toExternalForm();
-        border.setStyle("-fx-background-image: url('" + image + "'); " +
-                "-fx-background-position: center center; " +
-                "-fx-background-repeat: stretch;");*/
+//        border.setStyle("-fx-image:url('Grid.png');");
 //            border.setOpacity(0);
         getChildren().addAll(border, fill);
 

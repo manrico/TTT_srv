@@ -1,5 +1,4 @@
-#pane{
+.pane {
     -fx-background-image: url('Grid.png');
-    /*-fx-background-repeat: stretch;
-    -fx-background-position: center center;*/
 }
+
