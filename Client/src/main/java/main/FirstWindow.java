@@ -27,8 +27,10 @@ public class FirstWindow {
 
     private void firstScene() {
         vbox = new VBox();
+        vbox.setPrefSize(800,600);
         vbox.setPadding(new Insets(150));
         vbox.setSpacing(15);
+        vbox.getStyleClass().addAll("vbox");
         scene1 = new Scene(vbox);
         scene1.getStylesheets().add
                 (FirstWindow.class.getResource("Design.css").toExternalForm());
@@ -45,6 +47,7 @@ public class FirstWindow {
         vbox.getChildren().addAll(hello, enter, name, start);
 
         stage1.setScene(scene1);
+        stage1.setResizable(false);
         stage1.show();
 
     }

@@ -1,5 +1,5 @@
-.borderpane {
-    -fx-background-image: url('Grid.png');
+.vbox {
+    -fx-background-image: url('Background.jpg');
 }
 .button {
     -fx-text-fill: white;

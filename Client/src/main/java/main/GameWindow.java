@@ -28,7 +28,7 @@ public class GameWindow {
                 "-fx-background-repeat: stretch;");
         scene2 = new Scene(gameScene);
         stage2.setScene(scene2);
-        stage2.setResizable(true);
+        stage2.setResizable(false);
         stage2.show();
 
         // Create tiles to set Id-s
