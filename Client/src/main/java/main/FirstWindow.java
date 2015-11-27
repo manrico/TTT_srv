@@ -27,14 +27,14 @@ public class FirstWindow {
 
     private void firstScene() {
         vbox = new VBox();
-        vbox.setPrefSize(800,600);
+        vbox.setPrefSize(800, 600);
         vbox.setPadding(new Insets(150));
         vbox.setSpacing(15);
         vbox.getStyleClass().addAll("vbox");
         scene1 = new Scene(vbox);
         scene1.getStylesheets().add
                 (FirstWindow.class.getResource("Design.css").toExternalForm());
-        hello = new Label("Lets play some Tic Tac Toe");
+        hello = new Label("Lets play some Tic Tac Toe...");
         enter = new Label("Please enter your name to begin:");
         name = new TextField();
         name.setMaxWidth(250);
@@ -44,7 +44,7 @@ public class FirstWindow {
             new GameWindow();
         });
 
-        vbox.setAlignment(Pos.CENTER);
+        vbox.setAlignment(Pos.TOP_CENTER);
         vbox.getChildren().addAll(hello, enter, name, start);
 
         stage1.setScene(scene1);

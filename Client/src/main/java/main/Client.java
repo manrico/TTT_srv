@@ -74,7 +74,7 @@ public class Client extends Application {
 
     private Pane createContent() {
         gameScene = new Pane();
-        gameScene.setPrefSize(600, 400);            // creates the application window
+        gameScene.setPrefSize(600, 400);
 
         int tileIndex = 0;
         for (int i = 0; i < 3; i++) {
@@ -100,10 +100,10 @@ public class Client extends Application {
     }
 
     private class GameBoard extends StackPane {
-        private Text fill = new Text();                             // sets GameBoard text to default (empty)
+        private Text fill = new Text();                             // Sets GameBoard text to default (empty)
 
         public GameBoard() {
-            Rectangle border = new Rectangle(120, 120);            // draws TicTacToe board
+            Rectangle border = new Rectangle(120, 120);            // Draws TicTacToe board
             border.setFill(null);
             border.setStroke(Color.BLACK);
 //            border.setOpacity(0);
@@ -149,9 +149,7 @@ public class Client extends Application {
 
     }
 
-    /*
-    Handles server message and sends response back, if logic dictates.
-     */
+//    Handles server message and sends response back, if logic dictates.
     public void handleMessage(Message message) {
         switch ((ServerCommand) message.cmd) {
             // Test connection
