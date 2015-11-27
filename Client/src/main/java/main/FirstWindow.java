@@ -38,7 +38,7 @@ public class FirstWindow {
         enter = new Label("Please enter your name to begin:");
         name = new TextField();
         name.setMaxWidth(250);
-        start = new Button("Start the game");
+        start = new Button("START GAME");
         start.setOnAction(event -> {
             stage1.close();
             new GameWindow();
