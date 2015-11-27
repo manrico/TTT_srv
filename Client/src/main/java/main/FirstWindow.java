@@ -37,6 +37,7 @@ public class FirstWindow {
         hello = new Label("Lets play some Tic Tac Toe");
         enter = new Label("Please enter your name to begin:");
         name = new TextField();
+        name.setMaxWidth(250);
         start = new Button("Start the game");
         start.setOnAction(event -> {
             stage1.close();
