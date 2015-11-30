@@ -6,7 +6,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.Reflection;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -14,11 +20,13 @@ import javafx.stage.Stage;
  */
 public class FirstWindow {
     private Button start;
-    private Label enter, hello;
+    private Label enter;
+    private Text hello, empty;
     private TextField name;
     private Stage stage1 = new Stage();
     private Scene scene1;
     private VBox vbox;
+    private Reflection reflection;
 
     FirstWindow() {
         firstScene();
@@ -26,15 +34,19 @@ public class FirstWindow {
     }
 
     private void firstScene() {
-        vbox = new VBox();
+        vbox = new VBox(25);
         vbox.setPrefSize(800, 600);
-        vbox.setPadding(new Insets(150));
-        vbox.setSpacing(15);
+        vbox.setPadding(new Insets(75));
         vbox.getStyleClass().addAll("vbox");
         scene1 = new Scene(vbox);
         scene1.getStylesheets().add
                 (FirstWindow.class.getResource("Design.css").toExternalForm());
-        hello = new Label("Lets play some Tic Tac Toe...");
+        hello = new Text(50, 50, "TIC TAC TOE");
+        reflection = new Reflection();
+        hello.setFill(Color.WHITESMOKE);
+        hello.setFont(Font.font("Lucida Handwriting", FontPosture.ITALIC, 55));
+        hello.setEffect(reflection);
+        empty = new Text("");
         enter = new Label("Please enter your name to begin:");
         name = new TextField();
         name.setMaxWidth(250);
@@ -45,7 +57,7 @@ public class FirstWindow {
         });
 
         vbox.setAlignment(Pos.TOP_CENTER);
-        vbox.getChildren().addAll(hello, enter, name, start);
+        vbox.getChildren().addAll(hello, empty, enter, name, start);
 
         stage1.setScene(scene1);
         stage1.setResizable(false);

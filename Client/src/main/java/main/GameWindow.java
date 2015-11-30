@@ -2,7 +2,6 @@ package main;
 
 import com.ttt.Message.ClientCommand;
 import com.ttt.Message.Message;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -25,10 +24,10 @@ public class GameWindow {
     private Pane gameScene;
     private Scene scene2;
     private String boardBackground;
-    private ObjectOutputStream oos;
     private Rectangle border;
     private Image xPic = new Image(getClass().getResourceAsStream("X.png"));
     private Image oPic = new Image(getClass().getResourceAsStream("O.png"));
+    private ObjectOutputStream oos;
 
     GameWindow() {
         createContent();
@@ -69,7 +68,7 @@ public class GameWindow {
         private Label fill = new Label();
 
         public Game() {
-            // Tic Tac Toe board with rectangles, can be uncommented as were using background image as well.
+            // Tic Tac Toe board with rectangles
             border = new Rectangle(150, 150);
             border.setFill(null);
             border.setStroke(Color.BLACK);

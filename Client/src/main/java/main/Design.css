@@ -1,6 +1,7 @@
 .vbox {
     -fx-background-image: url('Background.jpg');
 }
+
 .button {
     -fx-background-color: #ecebe9,
     rgba(0, 0, 0, 0.05),
@@ -13,18 +14,21 @@
     -fx-font-family: "Georgia";
     -fx-text-fill: #311c09;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 2, 0.0, 0, 1);
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-font-size: 22px;
     -fx-font-weight: bold;
     -fx-background-color: linear-gradient(#61a2b1, #2A5058);
 }
+
 .button:hover {
     -fx-background-color: linear-gradient(#2A5058, #61a2b1);
 }
+
 .label {
     -fx-font-size: 20px;
     -fx-font-family: "Georgia";
     -fx-font-weight: bold;
+    -fx-font-style: italic;
     -fx-text-fill: #333333;
-    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 0, 0, 0, 1);
 }
