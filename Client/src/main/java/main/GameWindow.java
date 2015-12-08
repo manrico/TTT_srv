@@ -2,6 +2,8 @@ package main;
 
 import com.ttt.Message.ClientCommand;
 import com.ttt.Message.Message;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -10,6 +12,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,6 +29,7 @@ public class GameWindow {
     private Scene scene2;
     private String boardBackground;
     private Rectangle border;
+    private Label opponent, marks;
     private Image xPic = new Image(getClass().getResourceAsStream("X.png"));
     private Image oPic = new Image(getClass().getResourceAsStream("O.png"));
     private ObjectOutputStream oos;
@@ -40,6 +45,15 @@ public class GameWindow {
         gameScene.setStyle("-fx-background-image: url('" + boardBackground + "'); " +
                 "-fx-background-position: top left; " +
                 "-fx-background-repeat: stretch;");
+        marks = new Label("You play with O-s");
+        marks.setFont(Font.font("Lucida Handwriting", FontPosture.ITALIC, 25));
+        marks.setPadding(new Insets(30, 0, 0, 450));
+        marks.setTextFill(Color.BLACK);
+        opponent = new Label("Youre playing against: ");
+        opponent.setFont(Font.font("Lucida Handwriting", FontPosture.ITALIC, 25));
+        opponent.setTextFill(Color.BLACK);
+        opponent.setPadding(new Insets(70, 0, 0, 450));
+        gameScene.getChildren().addAll(marks, opponent);
         scene2 = new Scene(gameScene);
         stage2.setScene(scene2);
         stage2.setResizable(false);
@@ -54,6 +68,7 @@ public class GameWindow {
                 tileIndex++;
                 tile.setTranslateX(j * 150);
                 tile.setTranslateY(i * 150);
+//                tile.setPadding(new Insets(30, 0, 0, 160));
                 gameScene.getChildren().add(tile);
             }
         }
@@ -73,7 +88,8 @@ public class GameWindow {
             border.setFill(null);
             border.setStroke(Color.BLACK);
             border.setOpacity(0);
-            getChildren().addAll(border, fill);
+//            fill.setPadding(new Insets(160, 0, 0, 30));
+            this.getChildren().addAll(border, fill);
 
             this.enableMouse();
         }
