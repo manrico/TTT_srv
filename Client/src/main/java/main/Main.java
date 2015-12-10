@@ -16,7 +16,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         setUserAgentStylesheet(STYLESHEET_CASPIAN);
-        new FirstWindow();
+        new WelcomeScr();
 
         // separate non-FX thread for server listening
         new Thread() {
@@ -27,7 +27,7 @@ public class Main extends Application {
                 try {
                     while ((serverMessage = (Message) ois.readObject()) != null) {
                         System.out.println("The message from server:  " + serverMessage.toString());
-                        GameWindow.handleMessage(serverMessage);
+                        TheGame.handleMessage(serverMessage);
                     }
                 } catch (IOException | ClassNotFoundException e) {
                     System.out.println("Error on handling Server communication : " + e.getMessage());

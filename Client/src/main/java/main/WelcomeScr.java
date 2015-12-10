@@ -11,14 +11,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
  * Created by X1 on 24.11.2015.
  */
-public class FirstWindow {
+public class WelcomeScr {
     private Button start;
     private Label enter;
     private Text hello, empty;
@@ -28,7 +27,7 @@ public class FirstWindow {
     private VBox vbox;
     private Reflection reflection;
 
-    FirstWindow() {
+    WelcomeScr() {
         firstScene();
 //        login();
     }
@@ -40,7 +39,7 @@ public class FirstWindow {
         vbox.getStyleClass().addAll("vbox");
         scene1 = new Scene(vbox);
         scene1.getStylesheets().add
-                (FirstWindow.class.getResource("Design.css").toExternalForm());
+                (WelcomeScr.class.getResource("Design.css").toExternalForm());
         hello = new Text(50, 50, "TIC TAC TOE");
         reflection = new Reflection();
         hello.setFill(Color.WHITESMOKE);
@@ -53,7 +52,7 @@ public class FirstWindow {
         start = new Button("START GAME");
         start.setOnAction(event -> {
             stage1.close();
-            new GameWindow();
+            new TheGame();
         });
 
         vbox.setAlignment(Pos.TOP_CENTER);

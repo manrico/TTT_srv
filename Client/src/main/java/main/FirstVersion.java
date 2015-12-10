@@ -21,7 +21,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Iterator;
 
-public class Client extends Application {
+public class FirstVersion extends Application {
 
     private Socket socket;
     private ObjectOutputStream oos;

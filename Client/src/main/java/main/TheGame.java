@@ -23,7 +23,7 @@ import java.util.Iterator;
 /**
  * Created by X1 on 24.11.2015.
  */
-public class GameWindow {
+public class TheGame {
     private Stage stage2 = new Stage();
     private Pane gameScene;
     private Scene scene2;
@@ -34,7 +34,7 @@ public class GameWindow {
     private Image oPic = new Image(getClass().getResourceAsStream("O.png"));
     private ObjectOutputStream oos;
 
-    GameWindow() {
+    TheGame() {
         createContent();
     }
 
