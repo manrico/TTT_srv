@@ -3,7 +3,6 @@ package main;
 import com.ttt.Message.ClientCommand;
 import com.ttt.Message.Message;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -58,6 +57,10 @@ public class TheGame {
         stage2.setScene(scene2);
         stage2.setResizable(false);
         stage2.show();
+        stage2.setOnCloseRequest(event -> {
+            event.consume();
+            closeWindow();
+        });
 
         // Create tiles to set Id-s
         int tileIndex = 0;
@@ -73,6 +76,12 @@ public class TheGame {
             }
         }
         return gameScene;
+    }
+
+    private void closeWindow() {
+        Boolean ques = ExitGame.display("Title", "Exit the game?");
+        if (ques)
+            stage2.close();
     }
 
     // TODO move this out from here.
