@@ -79,7 +79,7 @@ public class TheGame {
     }
 
     private void closeWindow() {
-        Boolean ques = ExitGame.display("Title", "Exit the game?");
+        Boolean ques = ExitGame.display("Exit", "Are you sure you want to exit?");
         if (ques)
             stage2.close();
     }

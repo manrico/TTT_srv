@@ -12,33 +12,36 @@ import javafx.stage.Stage;
  * Created by X1 on 13.12.2015.
  */
 public class ExitGame {
-    static boolean answer;
+    static boolean ans;
+    static Stage stage;
 
     public static boolean display(String title, String message) {
-        Stage window = new Stage();
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setMinWidth(300);
+        stage = new Stage();
+        stage.setTitle(title);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setMinWidth(300);
         Label label = new Label(message);
 
         Button yes = new Button("Yes");
         Button no = new Button("No");
 
         yes.setOnAction(event -> {
-            answer = true;
-            window.close();
+            ans = true;
+            stage.close();
         });
 
         no.setOnAction(event -> {
-            answer = false;
-            window.close();
+            ans = false;
+            stage.close();
         });
 
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, yes, no);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout);
-        window.setScene(scene);
-        window.showAndWait();
-        return answer;
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.showAndWait();
+        return ans;
     }
 }
