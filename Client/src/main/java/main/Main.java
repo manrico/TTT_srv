@@ -18,11 +18,11 @@ public class Main extends Application {
         setUserAgentStylesheet(STYLESHEET_CASPIAN);
         new WelcomeScr();
 
-        // separate non-FX thread for server listening
+        // Separate non-FX thread for server listening
         new Thread() {
             Message serverMessage;
 
-            // runnable for that thread
+            // Runnable for that thread
             public void run() {
                 try {
                     while ((serverMessage = (Message) ois.readObject()) != null) {

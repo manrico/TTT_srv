@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Reflection;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -31,7 +32,7 @@ public class WelcomeScr {
 
     WelcomeScr() {
         firstScene();
-//        login();
+        registerName();
     }
 
     private void firstScene() {
@@ -52,13 +53,6 @@ public class WelcomeScr {
         name = new TextField();
         name.setMaxWidth(250);
         start = new Button("START GAME");
-        start.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                //TODO getName();
-            }
-        });
-
         start.setOnAction(event -> {
             stage1.close();
             new TheGame();
@@ -73,12 +67,9 @@ public class WelcomeScr {
 
     }
 
-    private void getName() {
-
-    }
-
-    /* private void login() {
-        start.setOnAction(event -> {
+    // TODO - To register entered name in welcome screen
+    private void registerName() {
+        /*start.setOnAction(event -> {
             String nimi = name.getText();
             Andmebaas baas = new Andmebaas();
             boolean result = baas.login(nimi);
@@ -87,6 +78,6 @@ public class WelcomeScr {
                 UserDetails ud = new UserDetails(nimi);
                 stage1.close();
             }
-        });
-    }*/
+        });*/
+    }
 }

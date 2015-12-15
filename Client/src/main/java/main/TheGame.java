@@ -86,6 +86,7 @@ public class TheGame {
 
     // TODO move this out from here.
     public static void handleMessage(Message message) {
+
     }
 
     private class Game extends StackPane {
