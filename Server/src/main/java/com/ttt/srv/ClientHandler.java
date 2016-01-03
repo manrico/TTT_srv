@@ -43,11 +43,12 @@ public class ClientHandler extends Thread{
     }
 
     public void handleMessage(Message message) {
-        Message answer;
+        // idMark 9 is playerless message.
         switch ((ClientCommand) message.cmd) {
             // Test connection
             case PING:
-                answer = new Message(ServerCommand.PONG, null);
+                Message answer = new Message(ServerCommand.PONG, null, message.idMark);
+                sendMessage(answer);
                 break;
 
             // Player sends us REGISTER command with his name. We create player instance and
@@ -59,18 +60,23 @@ public class ClientHandler extends Thread{
                 this.player = new Player(playerName);
                 this.player.handler = this;
                 try {
+                    // check if max players reached and start the game right away.
                     if (this.gameLogic.addPlayerAndDecideMark(player)) {
                         gameLogic.startGame();
                     } else {
-                        sendMessage(new Message(ServerCommand.STATE, "0,1,1,0,1,1,0,2,1"));
-                        //sendMessage(new Message(ServerCommand.REGISTER_OK, "Registered " + playerName + ", will send notification when game begins."));
+                        //sendMessage(new Message(ServerCommand.STATE, "0,1,1,0,1,1,0,2,1"));
+                        sendMessage(new Message(ServerCommand.REGISTER_OK, "Registered " + playerName + ", will send notification when game begins.", player.getIdMark()));
                     }
                 } catch (Exception ex) {
-                    sendMessage(new Message(ServerCommand.ERROR, ex.getMessage()));
+                    sendMessage(new Message(ServerCommand.ERROR, ex.getMessage(), 9));
                 }
                 break;
+
+            // We have player decision. State is sent from inside game logic.
+            case DECISION:
+                this.gameLogic.stateChange
             default:
-                sendMessage(new Message(ServerCommand.ERROR, "No comprendo?"));
+                sendMessage(new Message(ServerCommand.ERROR, "No comprendo?", 9));
         }
     }
 

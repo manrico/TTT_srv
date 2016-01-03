@@ -34,7 +34,7 @@ public class Client extends Application {
 
 
     public void start(Stage primaryStage) throws Exception {
-        this.socket = new Socket("localhost", 5843);
+        /*this.socket = new Socket("localhost", 5843);
         try {
             this.oos = new ObjectOutputStream(this.socket.getOutputStream());
             this.ois = new ObjectInputStream(this.socket.getInputStream());
@@ -42,7 +42,7 @@ public class Client extends Application {
         } catch (IOException e) {
             System.out.println("Error" + e.getMessage());
         }
-
+*/
         // create board and add it to stage.
         this.board = this.createContent();
         primaryStage.setScene(new Scene(this.board));
@@ -68,8 +68,9 @@ public class Client extends Application {
         }.start();
 
         primaryStage.show();
-        Message message = new Message(ClientCommand.REGISTER, "Marko");
-        this.sendMessage(message);
+        //Message message = new Message(ClientCommand.REGISTER, "Marko", 9);
+        //this.sendMessage(message);
+
        // int[] state =  { 0, 1, 2, 0, 0, 1, 0, 1, 2 };
         // this.drawState(state);
 
@@ -103,6 +104,14 @@ public class Client extends Application {
         }
     }
 
+    private void disableMouse() {
+        //this.board.setOnMouseClicked(null);
+        for (Iterator<javafx.scene.Node> i = this.board.getChildren().iterator(); i.hasNext();) {
+            i.next().setOnMouseClicked(null);
+        }
+
+    }
+
 
 
     private class Tile extends StackPane {
@@ -119,7 +128,7 @@ public class Client extends Application {
 
             setOnMouseClicked(event -> {
                 drawMark(1);
-                Message message = new Message(ClientCommand.DECISION, this.getId());
+                Message message = new Message(ClientCommand.DECISION, this.getId(), 9);
                 sendMessage(message);
             });
         }
@@ -171,7 +180,8 @@ public class Client extends Application {
     }
 
     public void sendMessage(Message message) {
-
+        this.disableMouse();
+        /*
         System.out.println("Sending to server : " + message.toString());
         try {
             oos.writeObject(message);
@@ -181,10 +191,11 @@ public class Client extends Application {
             System.out.println("Error" + e.getMessage());
 
         }
+        */
     }
 
     private void sendDecision(int decision) {
-        Message decisionMessage = new Message(ClientCommand.DECISION, Integer.toString(decision));
+        Message decisionMessage = new Message(ClientCommand.DECISION, Integer.toString(decision), 9);
         this.sendMessage(decisionMessage);
     }
 }

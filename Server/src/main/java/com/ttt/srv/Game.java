@@ -12,7 +12,7 @@ public class Game {
 
     public Game() {
 
-        this.state = new int [9];
+        this.state = {0,0,0,0,0,0,0,0,0};
         System.out.println("New Game created. state : " + Arrays.toString(this.getState()));
     }
 

@@ -8,12 +8,14 @@ import java.io.Serializable;
 public class Message implements Serializable {
     public Command cmd;
     public String payload;
-    public Message(Command c, String pl) {
+    public int idMark;
+    public Message(Command c, String pl, int idMark) {
         cmd = c;
         payload = pl;
+        idMark = idMark;
     }
 
     public String toString() {
-        return "Command : " + cmd.toString() + " payload : " + payload;
+        return "Command : " + cmd.toString() + " payload : " + payload + " idMark : "+ idMark;
     }
 }

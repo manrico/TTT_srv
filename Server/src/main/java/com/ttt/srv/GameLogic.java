@@ -43,7 +43,7 @@ public class GameLogic {
         }
         players.add(player);
         // player mark (O or X) is decided by it's index in players list. 0 for O and 1 for X
-        player.setMark(players.indexOf(player));
+        player.setIdMark(players.indexOf(player));
         System.out.println("Player added.");
         if(players.size()==MAX_PLAYERS) {
             System.out.printf("max players reached, starting game\n");
@@ -64,9 +64,12 @@ public class GameLogic {
     }
 
     public void startGame() {
-        players.get(0).handler.sendMessage(new Message(ServerCommand.GAME_START, "Game has started"));
-        players.get(1).handler.sendMessage(new Message(ServerCommand.GAME_START, "Game has started"));
-        getPlayerTurn().handler.sendMessage(new Message(ServerCommand.YOUR_TURN, "You go first"));
+        //TODO check those 0 and 1-s here. Proper bug
+        players.get(0).handler.sendMessage(new Message(ServerCommand.GAME_START, "Game has started", 0));
+        players.get(1).handler.sendMessage(new Message(ServerCommand.GAME_START, "Game has started", 1));
+        Player currentTurnPlayer = getPlayerTurn();
+        currentTurnPlayer.handler.sendMessage(new Message(ServerCommand.YOUR_TURN, "You go first", currentTurnPlayer.getIdMark()));
     }
+
 
 }

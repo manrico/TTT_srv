@@ -5,8 +5,7 @@ package com.ttt.srv;
  */
 public class Player {
     private String name;
-    private int id;
-    private int mark;
+    private int idMark;
     private int gameId;
 
     public ClientHandler handler;
@@ -19,20 +18,12 @@ public class Player {
         return name;
     }
 
-    public int getId() {
-        return id;
+    public int getIdMark() {
+        return idMark;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getMark() {
-        return mark;
-    }
-
-    public void setMark(int mark) {
-        this.mark = mark;
+    public void setIdMark(int mark) {
+        this.idMark = mark;
     }
 
     public int getGameId() {
