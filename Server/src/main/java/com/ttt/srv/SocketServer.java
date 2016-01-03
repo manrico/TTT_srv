@@ -6,9 +6,15 @@ import com.ttt.Message.*;
 public class SocketServer {
 
     public static void main(String args[]) throws Exception {
-        int a=1;
-        int b = a++ / 5;
-        System.out.println(a);
-        System.out.println(b);
+        int port = 5843;
+        int maxClients = 2;
+        boolean acceptingPlayers = true;
+        ServerSocket serverSocket = new ServerSocket(port, maxClients);
+        GameLogic gameLogic = new GameLogic();
+
+        System.out.println("Waiting for connections on port " + port);
+        while (acceptingPlayers) {
+            new ClientHandler(serverSocket.accept(), gameLogic).start();
+        }
     }
 }
