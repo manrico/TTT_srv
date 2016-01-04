@@ -1,4 +1,4 @@
-package main;
+package com.ttt.client;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

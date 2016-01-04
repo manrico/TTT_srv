@@ -1,4 +1,4 @@
-package main;
+package com.ttt.client;
 
 import com.ttt.Message.ClientCommand;
 import com.ttt.Message.Message;
@@ -107,7 +107,7 @@ public class TheGame {
         private void enableMouse() {
             setOnMouseClicked(event -> {
                 drawMark(2);
-                Message message = new Message(ClientCommand.DECISION, this.getId());
+                Message message = new Message(ClientCommand.DECISION, this.getId(), 1);
                 sendMessage(message);
             });
         }

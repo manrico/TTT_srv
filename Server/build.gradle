@@ -4,7 +4,7 @@ dependencies {
     compile project(':Message')
 }
 
-task(runServer, dependsOn: 'classes', type: JavaExec) {
+task runServer (dependsOn: 'classes', type: JavaExec) {
     main = 'com.ttt.srv.SocketServer'
     classpath = sourceSets.main.runtimeClasspath
 

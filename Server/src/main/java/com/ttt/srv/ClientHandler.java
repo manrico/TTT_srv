@@ -74,7 +74,7 @@ public class ClientHandler extends Thread{
 
             // We have player decision. State is sent from inside game logic.
             case DECISION:
-                this.gameLogic.stateChange
+                // this.gameLogic.stateChange
             default:
                 sendMessage(new Message(ServerCommand.ERROR, "No comprendo?", 9));
         }
