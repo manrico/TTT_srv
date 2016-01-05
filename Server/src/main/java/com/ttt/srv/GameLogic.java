@@ -1,8 +1,10 @@
 package com.ttt.srv;
 
 import com.ttt.Message.*;
+import com.ttt.srv.Exception.GameStateException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -34,8 +36,8 @@ public class GameLogic {
             throw new Exception("Maximum players reached for this game");
         }
         players.add(player);
-        // player mark (O or X) is decided by it's index in players list. 0 for O and 1 for X
-        player.setIdMark(players.indexOf(player));
+        // player mark (O or X) is decided by it's index in players list. 1 for O and 2 for X
+        player.setIdMark(players.indexOf(player)+1);
         System.out.println("Player added.");
         if(players.size()==MAX_PLAYERS) {
             System.out.printf("max players reached, starting game\n");
@@ -55,10 +57,34 @@ public class GameLogic {
         return this.currentTurn;
     }
 
+    public Player getPlayerWhosTurnIsnt() {
+        if (this.currentTurn.getIdMark() == 1) {
+            return players.get(1);
+        } else {
+            return players.get(0);
+        }
+    }
+
+    private Player getPlayerByIdMark(int idMark){
+        return players.get(idMark-1);
+    }
+
+    public void changeState(int idMark, int decision) throws Exception {
+        try {
+            this.game.turn(idMark, decision);
+        } catch (GameStateException ex) {
+            System.out.println("Error : " + ex.getMessage());
+            players.get(0).handler.sendMessage(new Message(ServerCommand.ERROR, ex.getMessage(), 9));
+            players.get(1).handler.sendMessage(new Message(ServerCommand.ERROR, ex.getMessage(), 9));
+            throw new Exception("Game state error.");
+        }
+        Player nextPlayer = getPlayerWhosTurnIsnt();
+        nextPlayer.handler.sendMessage(new Message(ServerCommand.STATE,  Arrays.toString(game.getState()), 9));
+    }
+
     public void startGame() {
-        //TODO check those 0 and 1-s here. Proper bug
-        players.get(0).handler.sendMessage(new Message(ServerCommand.GAME_START, "Game has started", 0));
-        players.get(1).handler.sendMessage(new Message(ServerCommand.GAME_START, "Game has started", 1));
+        players.get(0).handler.sendMessage(new Message(ServerCommand.GAME_START, "Game has started", players.get(0).getIdMark()));
+        players.get(1).handler.sendMessage(new Message(ServerCommand.GAME_START, "Game has started", players.get(1).getIdMark()));
         Player currentTurnPlayer = getPlayerTurn();
         currentTurnPlayer.handler.sendMessage(new Message(ServerCommand.YOUR_TURN, "You go first", currentTurnPlayer.getIdMark()));
     }

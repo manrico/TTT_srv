@@ -136,7 +136,7 @@ public class Client extends Application {
         if (userNameFieldText.length() < 2) {
             this.dialogLabel.setText("Username must be longer than 2 letters.");
         } else {
-            Message message = new Message(ClientCommand.REGISTER, userNameFieldText, 1);
+            Message message = new Message(ClientCommand.REGISTER, userNameFieldText, 9);
             try {
                 this.sendMessage(message);
             } catch (Exception e) {
@@ -191,8 +191,10 @@ public class Client extends Application {
             setOnMouseClicked(event -> {
                 drawMark(mark);
                 try {
-                    Message message = new Message(ClientCommand.DECISION, this.getId(), 1);
+                    Message message = new Message(ClientCommand.DECISION, this.getId(), mark);
                     sendMessage(message);
+                    dialogLabel.setText("Waiting for your turn!");
+                    disableMouse();
                 } catch (Exception e) {
                     log("Error : " + e.getMessage());
                 }
@@ -227,23 +229,31 @@ public class Client extends Application {
                 break;
 
             case STATE:
-                String[] strArray = message.payload.split(",");
+                String payload = message.payload.substring(1, message.payload.length()-1);
+                String[] strArray = payload.split(",");
                 int[] intArray = new int[strArray.length];
                 for (int i = 0; i < strArray.length; i++) {
-                    intArray[i] = Integer.parseInt(strArray[i]);
+                    intArray[i] = Integer.parseInt(strArray[i].trim());
                 }
-                this.drawState(intArray);
+
+                Platform.runLater(() -> this.drawState(intArray));
+                Platform.runLater(() ->  this.dialogLabel.setText("Its Your turn!"));
+                Platform.runLater(() -> this.enableTileMouseEvents());
                 break;
 
             case GAME_START:
                 Platform.runLater(() -> this.dialogLabel.setText("Game has started. Your mark is " + message.idMark + " waiting for Your turn!"));
+                this.mark = message.idMark;
                 break;
 
             case YOUR_TURN:
                 Platform.runLater(() ->  this.dialogLabel.setText("Its Your turn!"));
-                this.enableTileMouseEvents();
+                Platform.runLater(() -> this.enableTileMouseEvents());
                 break;
-
+            case ERROR:
+                Platform.runLater(() ->  this.dialogLabel.setText("Sorry, Something went wrong :("));
+                Platform.runLater(() -> this.disableMouse());
+                break;
             default:
                 //TODO throw Exception - we sould handle everything!
                 System.out.println("Should not fall here.");

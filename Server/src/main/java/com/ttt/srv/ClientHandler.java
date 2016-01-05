@@ -64,7 +64,6 @@ public class ClientHandler extends Thread{
                     if (this.gameLogic.addPlayerAndDecideMark(player)) {
                         gameLogic.startGame();
                     } else {
-                        //sendMessage(new Message(ServerCommand.STATE, "0,1,1,0,1,1,0,2,1"));
                         sendMessage(new Message(ServerCommand.REGISTER_OK, "Registered " + playerName + ", will send notification when game begins.", player.getIdMark()));
                     }
                 } catch (Exception ex) {
@@ -74,7 +73,12 @@ public class ClientHandler extends Thread{
 
             // We have player decision. State is sent from inside game logic.
             case DECISION:
-                // this.gameLogic.stateChange
+                try {
+                    this.gameLogic.changeState(this.player.getIdMark(), Integer.parseInt(message.payload));
+                } catch (Exception ex) {
+                    System.out.println("All is lost, state error.");
+                }
+                break;
             default:
                 sendMessage(new Message(ServerCommand.ERROR, "No comprendo?", 9));
         }

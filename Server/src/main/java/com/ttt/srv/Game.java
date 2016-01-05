@@ -16,7 +16,7 @@ public class Game {
         System.out.println("New Game created. state : " + Arrays.toString(this.getState()));
     }
 
-    public int[] turn(int index, int mark) throws GameStateException
+    public int[] turn(int mark, int index) throws GameStateException
     {
         //TODO check if valid state manipulation
         if (this.state[index] > 0) {

@@ -10,9 +10,9 @@ public class Message implements Serializable {
     public String payload;
     public int idMark;
     public Message(Command c, String pl, int idMark) {
-        cmd = c;
-        payload = pl;
-        idMark = idMark;
+        this.cmd = c;
+        this.payload = pl;
+        this.idMark = idMark;
     }
 
     public String toString() {
