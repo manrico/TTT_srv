@@ -38,6 +38,7 @@ public class Client extends Application {
     private TextField userNameField;
     private Label dialogLabel;
     private Button startButton;
+    private int mark;
     final static int WIDTH = 600;
     final static int HEIGHT = 600;
     final static String HOST = "localhost";
@@ -56,6 +57,9 @@ public class Client extends Application {
 
         primaryStage.setScene(new Scene(root,WIDTH, HEIGHT));
         primaryStage.show();
+        // Disable all mouseevents on tiles.
+        this.disableMouse();
+
         this.log("Welcome!");
         this.log("Trying to connect to : " + HOST + ":" + PORT );
 
@@ -84,10 +88,8 @@ public class Client extends Application {
             }
         }.start();
 
-
-        int[] state =  {0, 0, 0, 0, 0, 0, 0, 0, 0};
-        this.drawState(state);
-
+        //int[] state =  {0, 0, 0, 0, 0, 0, 0, 0, 0};
+        //this.drawState(state);
     }
 
     private ScrollPane createDebugBox() {
@@ -152,7 +154,6 @@ public class Client extends Application {
 
     private Pane createContent() {
         gameGraphics = new Pane();
-
         int tileIndex = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -168,7 +169,6 @@ public class Client extends Application {
     }
 
     private void drawState(int[] state) {
-
         for (Iterator<javafx.scene.Node> i = this.gameGraphics.getChildren().iterator(); i.hasNext(); ) {
             GameSquare currentPane = (GameSquare) i.next();
             int id = Integer.parseInt(currentPane.getId());
@@ -189,7 +189,7 @@ public class Client extends Application {
 
         public void enableMouse() {
             setOnMouseClicked(event -> {
-                drawMark(1);
+                drawMark(mark);
                 try {
                     Message message = new Message(ClientCommand.DECISION, this.getId(), 1);
                     sendMessage(message);
@@ -215,7 +215,6 @@ public class Client extends Application {
                     break;
             }
         }
-
     }
 
     // Handles server message and sends response back, if logic dictates.
@@ -242,6 +241,7 @@ public class Client extends Application {
 
             case YOUR_TURN:
                 Platform.runLater(() ->  this.dialogLabel.setText("Its Your turn!"));
+                this.enableTileMouseEvents();
                 break;
 
             default:
@@ -261,14 +261,13 @@ public class Client extends Application {
         log("Enabling mouse.");
         for (Iterator<javafx.scene.Node> i = this.gameGraphics.getChildren().iterator(); i.hasNext(); ) {
             GameSquare currentPane = (GameSquare) i.next();
-            if (currentPane.fill.equals("")) {
+            if (currentPane.fill.getText().equals("")) {
                 currentPane.enableMouse();
             }
         }
     }
 
     public void sendMessage(Message message) throws Exception {
-       this.disableMouse();
        this.log("Sending to server : " + message.toString());
         try {
             oos.writeObject(message);
@@ -277,17 +276,8 @@ public class Client extends Application {
             this.log("Error : " + e.getMessage());
             throw new Exception(e.getMessage());
         }
-        this.enableTileMouseEvents();
     }
 
-    private void sendDecision(int decision) {
-        try {
-            Message decisionMessage = new Message(ClientCommand.DECISION, Integer.toString(decision), 1);
-            this.sendMessage(decisionMessage);
-        } catch (Exception e) {
-            this.log(e.getMessage());
-        }
-    }
 }
 
 
