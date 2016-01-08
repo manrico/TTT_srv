@@ -78,8 +78,8 @@ public class GameLogic {
             players.get(1).handler.sendMessage(new Message(ServerCommand.ERROR, ex.getMessage(), 9));
             throw new Exception("Game state error.");
         }
-        Player nextPlayer = getPlayerWhosTurnIsnt();
-        nextPlayer.handler.sendMessage(new Message(ServerCommand.STATE,  Arrays.toString(game.getState()), 9));
+        this.setPlayerTurn(getPlayerWhosTurnIsnt());
+        getPlayerTurn().handler.sendMessage(new Message(ServerCommand.STATE,  Arrays.toString(game.getState()), 9));
     }
 
     public void startGame() {

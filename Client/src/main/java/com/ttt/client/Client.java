@@ -189,11 +189,12 @@ public class Client extends Application {
 
         public void enableMouse() {
             setOnMouseClicked(event -> {
+                System.out.println("mark : "+mark);
                 drawMark(mark);
                 try {
                     Message message = new Message(ClientCommand.DECISION, this.getId(), mark);
+                    System.out.println(message.toString());
                     sendMessage(message);
-                    dialogLabel.setText("Waiting for your turn!");
                     disableMouse();
                 } catch (Exception e) {
                     log("Error : " + e.getMessage());
@@ -250,6 +251,7 @@ public class Client extends Application {
                 Platform.runLater(() ->  this.dialogLabel.setText("Its Your turn!"));
                 Platform.runLater(() -> this.enableTileMouseEvents());
                 break;
+
             case ERROR:
                 Platform.runLater(() ->  this.dialogLabel.setText("Sorry, Something went wrong :("));
                 Platform.runLater(() -> this.disableMouse());
@@ -278,10 +280,11 @@ public class Client extends Application {
     }
 
     public void sendMessage(Message message) throws Exception {
+        dialogLabel.setText("Waiting for your turn!");
        this.log("Sending to server : " + message.toString());
         try {
-            oos.writeObject(message);
-            oos.flush();
+            this.oos.writeObject(message);
+            this.oos.flush();
         } catch (Exception e) {
             this.log("Error : " + e.getMessage());
             throw new Exception(e.getMessage());
