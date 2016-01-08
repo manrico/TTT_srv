@@ -9,5 +9,6 @@ public enum ServerCommand implements Command{
     ERROR,
     GAME_START,
     YOUR_TURN,
-    STATE
+    STATE,
+    DRAW
 }

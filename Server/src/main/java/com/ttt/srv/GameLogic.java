@@ -88,6 +88,9 @@ public class GameLogic {
 
         int winner = this.game.getWinner(this.game.getState());
         if (winner > 0) {
+            if (winner == 3) {
+                this.sendToBothPlayers(ServerCommand.DRAW, "Draw");
+            }
             System.out.println("WINNER IS MARK " + winner);
         } else {
             this.setPlayerTurn(getPlayerWhosTurnIsnt());
@@ -96,11 +99,15 @@ public class GameLogic {
     }
 
     public void startGame() {
-        players.get(0).handler.sendMessage(new Message(ServerCommand.GAME_START, "Game has started", players.get(0).getIdMark()));
-        players.get(1).handler.sendMessage(new Message(ServerCommand.GAME_START, "Game has started", players.get(1).getIdMark()));
+        this.sendToBothPlayers(ServerCommand.GAME_START, "Game has started");
         Player currentTurnPlayer = getPlayerTurn();
         currentTurnPlayer.handler.sendMessage(new Message(ServerCommand.YOUR_TURN, "You go first", currentTurnPlayer.getIdMark()));
     }
 
+    private void sendToBothPlayers(ServerCommand cmd, String payload) {
+        for (Player player : players) {
+            player.handler.sendMessage(new Message(cmd, payload, player.getIdMark()));
+        }
+    }
 
 }

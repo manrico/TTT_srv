@@ -10,7 +10,6 @@ public class GameTest extends TestCase {
     public void testGetNoWinner() throws Exception {
         int [] state = new int[]{1,0,0,0,0,0,0,0,0};
         Game game = new Game();
-
         assertEquals(0,game.getWinner(state));
     }
 
