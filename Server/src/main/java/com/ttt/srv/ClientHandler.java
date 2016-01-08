@@ -76,7 +76,7 @@ public class ClientHandler extends Thread{
                 try {
                     this.gameLogic.changeState(this.player.getIdMark(), Integer.parseInt(message.payload));
                 } catch (Exception ex) {
-                    System.out.println("All is lost, state error.");
+                    System.out.println("All is lost, state error." + ex.getMessage());
                 }
                 break;
             default:

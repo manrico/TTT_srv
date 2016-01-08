@@ -81,17 +81,30 @@ public class GameLogic {
             this.game.turn(idMark, decision);
         } catch (GameStateException | GameMarkException ex) {
             System.out.println("Error : " + ex.getMessage());
-            players.get(0).handler.sendMessage(new Message(ServerCommand.ERROR, ex.getMessage(), 9));
-            players.get(1).handler.sendMessage(new Message(ServerCommand.ERROR, ex.getMessage(), 9));
-            throw new Exception("Game state error. - " + ex.getMessage());
+            this.sendToBothPlayers(ServerCommand.ERROR, ex.getMessage());
+            throw new GameStateException("Game state error. - " + ex.getMessage());
         }
 
-        int winner = this.game.getWinner(this.game.getState());
+        //pass state by reference as it gets sorted
+        int[] stateForCheck = new int[9 ];
+        System.arraycopy( this.game.getState(), 0, stateForCheck, 0, this.game.getState().length );
+        int winner = this.game.getWinner(stateForCheck);
         if (winner > 0) {
-            if (winner == 3) {
+            if (winner == 3) { // draw
+                this.sendToBothPlayers(ServerCommand.STATE, Arrays.toString(this.game.getState()));
                 this.sendToBothPlayers(ServerCommand.DRAW, "Draw");
+            } else { // we have actual winner!
+                this.sendToBothPlayers(ServerCommand.STATE, Arrays.toString(this.game.getState()));
+                System.out.println("WINNER IS MARK " + winner);
+
+                Player winnerPlayer = getPlayerByIdMark(winner);
+                this.setPlayerTurn(winnerPlayer);
+                winnerPlayer.handler.sendMessage(new Message(ServerCommand.WIN, "You win", winnerPlayer.getIdMark()));
+
+                Player loserPlayer = getPlayerWhosTurnIsnt();
+                loserPlayer.handler.sendMessage(new Message(ServerCommand.LOSE, "You lose", loserPlayer.getIdMark()));
             }
-            System.out.println("WINNER IS MARK " + winner);
+
         } else {
             this.setPlayerTurn(getPlayerWhosTurnIsnt());
             getPlayerTurn().handler.sendMessage(new Message(ServerCommand.STATE, Arrays.toString(game.getState()), 9));

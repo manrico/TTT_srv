@@ -10,5 +10,7 @@ public enum ServerCommand implements Command{
     GAME_START,
     YOUR_TURN,
     STATE,
-    DRAW
+    DRAW,
+    WIN,
+    LOSE
 }

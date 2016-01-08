@@ -21,11 +21,12 @@ public class Game {
     }
 
     public int[] turn(int mark, int index) throws GameStateException, GameMarkException {
+        System.out.println("Turn : player mark : " + mark + " position mark : " + index + " current state : " + Arrays.toString(this.state) );
         if (this.state[index] > 0) {
             throw new GameStateException("Invalid turn!");
         }
-        if (mark != 1 || mark != 2) {
-            throw new GameMarkException("Invalid game mark!");
+        if (mark >2 || mark <1) {
+            throw new GameMarkException("Invalid game mark : " + mark);
         }
         this.state[index] = mark;
         return this.state;

@@ -252,6 +252,11 @@ public class Client extends Application {
                 Platform.runLater(() -> this.enableTileMouseEvents());
                 break;
 
+            case DRAW:
+                Platform.runLater(() ->  this.dialogLabel.setText("Its a draw!"));
+                Platform.runLater(() -> this.disableMouse());
+                break;
+
             case ERROR:
                 Platform.runLater(() ->  this.dialogLabel.setText("Sorry, Something went wrong :("));
                 Platform.runLater(() -> this.disableMouse());
