@@ -257,6 +257,16 @@ public class Client extends Application {
                 Platform.runLater(() -> this.disableMouse());
                 break;
 
+            case WIN:
+                Platform.runLater(() ->  this.dialogLabel.setText("YOU WIN!"));
+                Platform.runLater(() -> this.disableMouse());
+                break;
+
+            case LOSE:
+                Platform.runLater(() ->  this.dialogLabel.setText("YOU LOSE! SORRY!"));
+                Platform.runLater(() -> this.disableMouse());
+                break;
+
             case ERROR:
                 Platform.runLater(() ->  this.dialogLabel.setText("Sorry, Something went wrong :("));
                 Platform.runLater(() -> this.disableMouse());
