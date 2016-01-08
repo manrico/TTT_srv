@@ -1,12 +1,13 @@
 package com.ttt.srv;
 
-import com.ttt.Message.*;
+import com.ttt.Message.Message;
+import com.ttt.Message.ServerCommand;
+import com.ttt.srv.Exception.GameMarkException;
 import com.ttt.srv.Exception.GameStateException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Game logic class, handles server messages and acts on them
@@ -69,17 +70,29 @@ public class GameLogic {
         return players.get(idMark-1);
     }
 
+    /**
+     * Change game state. We take in player mark and decision and try to change the state of the game and then decide if there's a winner.
+     * @param idMark player id/ mark
+     * @param decision player decision, 0-8
+     * @throws Exception If game state change throws Error, which is distributed to players.
+     */
     public void changeState(int idMark, int decision) throws Exception {
         try {
             this.game.turn(idMark, decision);
-        } catch (GameStateException ex) {
+        } catch (GameStateException | GameMarkException ex) {
             System.out.println("Error : " + ex.getMessage());
             players.get(0).handler.sendMessage(new Message(ServerCommand.ERROR, ex.getMessage(), 9));
             players.get(1).handler.sendMessage(new Message(ServerCommand.ERROR, ex.getMessage(), 9));
-            throw new Exception("Game state error.");
+            throw new Exception("Game state error. - " + ex.getMessage());
         }
-        this.setPlayerTurn(getPlayerWhosTurnIsnt());
-        getPlayerTurn().handler.sendMessage(new Message(ServerCommand.STATE,  Arrays.toString(game.getState()), 9));
+
+        int winner = this.game.getWinner(this.game.getState());
+        if (winner > 0) {
+            System.out.println("WINNER IS MARK " + winner);
+        } else {
+            this.setPlayerTurn(getPlayerWhosTurnIsnt());
+            getPlayerTurn().handler.sendMessage(new Message(ServerCommand.STATE, Arrays.toString(game.getState()), 9));
+        }
     }
 
     public void startGame() {
