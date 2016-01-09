@@ -8,3 +8,10 @@ javafx.mainClass 'Client'
 dependencies {
     compile project(':Message')
 }
+
+task runClient (dependsOn: 'classes', type: JavaExec) {
+    main = 'com.ttt.client.Client'
+    classpath = sourceSets.main.runtimeClasspath
+
+}
+
