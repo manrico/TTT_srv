@@ -88,8 +88,6 @@ public class Client extends Application {
             }
         }.start();
 
-        //int[] state =  {0, 0, 0, 0, 0, 0, 0, 0, 0};
-        //this.drawState(state);
     }
 
     private ScrollPane createDebugBox() {
@@ -189,13 +187,12 @@ public class Client extends Application {
 
         public void enableMouse() {
             setOnMouseClicked(event -> {
-                System.out.println("mark : "+mark);
                 drawMark(mark);
+                disableMouse();
+                Message message = new Message(ClientCommand.DECISION, this.getId(), mark);
+                System.out.println();
                 try {
-                    Message message = new Message(ClientCommand.DECISION, this.getId(), mark);
-                    System.out.println(message.toString());
                     sendMessage(message);
-                    disableMouse();
                 } catch (Exception e) {
                     log("Error : " + e.getMessage());
                 }
@@ -272,20 +269,17 @@ public class Client extends Application {
                 Platform.runLater(() -> this.disableMouse());
                 break;
             default:
-                //TODO throw Exception - we sould handle everything!
                 System.out.println("Should not fall here.");
         }
     }
 
     private void disableMouse() {
-        log("Disabling mouse.");
         for (Iterator<javafx.scene.Node> i = this.gameGraphics.getChildren().iterator(); i.hasNext(); ) {
             i.next().setOnMouseClicked(null);
         }
     }
 
     private void enableTileMouseEvents() {
-        log("Enabling mouse.");
         for (Iterator<javafx.scene.Node> i = this.gameGraphics.getChildren().iterator(); i.hasNext(); ) {
             GameSquare currentPane = (GameSquare) i.next();
             if (currentPane.fill.getText().equals("")) {
@@ -295,8 +289,8 @@ public class Client extends Application {
     }
 
     public void sendMessage(Message message) throws Exception {
-        dialogLabel.setText("Waiting for your turn!");
-       this.log("Sending to server : " + message.toString());
+        Platform.runLater(() -> dialogLabel.setText("Waiting for your turn!"));
+        this.log("Sending to server : " + message.toString());
         try {
             this.oos.writeObject(message);
             this.oos.flush();

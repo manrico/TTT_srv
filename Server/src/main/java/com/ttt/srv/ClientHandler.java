@@ -87,9 +87,10 @@ public class ClientHandler extends Thread{
     public void sendMessage(Message message) {
         System.out.println("Sending back to client : " + message.toString());
         try {
+            Thread.sleep(100);
             oos.writeObject(message);
             oos.flush();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             System.err.println("Everything is broken: " + e.getMessage());
         }
     }
